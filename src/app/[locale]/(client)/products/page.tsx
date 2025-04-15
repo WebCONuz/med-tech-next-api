@@ -8,13 +8,18 @@ export const metadata: Metadata = {
   description: "Products page",
 };
 
-export default async function Products() {
+export default async function Products({
+  params,
+}: {
+  params: Promise<{ id: string; locale: string }>;
+}) {
   const t = await getTranslations("ProductsPage");
+  const { locale } = await params;
 
   return (
     <>
       <Hero title={t("title")} description={t("description")} />
-      <ProductsGrid />
+      <ProductsGrid locale={locale} />
     </>
   );
 }

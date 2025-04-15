@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
@@ -18,10 +18,13 @@ import { LuMenu } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
 import LangAccordion from "../ui/lang-accordion";
 import { useTranslations } from "next-intl";
+import axios from "axios";
+import { ILang } from "@/types/lang.types";
 
-const Header = () => {
+const Header = ({ locale }: { locale: string }) => {
   const [isDark, setIsDark] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
+  const [langs, setLangs] = useState<ILang[]>([]);
   const pathname = usePathname();
   const t = useTranslations("header");
 
@@ -30,22 +33,29 @@ const Header = () => {
     { name: t("nav.item2"), href: "/products" },
     { name: t("nav.item3"), href: "/contact" },
   ];
-  const langs: string[] = ["en", "ru", "uz"];
+
+  const getLanguages = async () => {
+    const res = await axios.get("http://3.122.24.252:3002/api/language");
+    if (res.status === 200) setLangs(res.data.data);
+  };
+
   const activeLink = (pageHref: string): boolean => {
-    const pathSegments = pathname.split("/");
-    const lang = langs.includes(pathSegments[1]) ? pathSegments[1] : "en";
     const href =
-      lang === "en"
+      locale === "eng"
         ? pageHref
         : pageHref === "/"
-        ? `/${lang}`
-        : `/${lang}${pageHref}`;
+        ? `/${locale}`
+        : `/${locale}${pageHref}`;
     return href === pathname;
   };
 
   const darkMode = () => {
     setIsDark(!isDark);
   };
+
+  useEffect(() => {
+    getLanguages();
+  }, []);
 
   return (
     <header className="shadow relative">
@@ -84,7 +94,7 @@ const Header = () => {
               </button>
 
               {/* language */}
-              <LangAccordion />
+              <LangAccordion langs={langs} />
             </div>
 
             {/* socials */}

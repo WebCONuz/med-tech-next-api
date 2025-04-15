@@ -16,8 +16,9 @@ import { MdClose } from "react-icons/md";
 import { useTranslations } from "next-intl";
 import { ProductItem } from "@/types/product.types";
 import Skeleton from "../ui/skeleton";
+import { ILang } from "@/types/lang.types";
 
-const ProductsGrid = () => {
+const ProductsGrid = ({ locale }: { locale: string }) => {
   const [isGrid, setIsGrid] = useState(true);
   const [openFilter, setOpenFilter] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -34,9 +35,13 @@ const ProductsGrid = () => {
   async function getProducts() {
     try {
       setLoading(true);
+      const res1 = await axios.get(`http://3.122.24.252:3002/api/language`);
+      const lang = res1.data;
+      const langObj = lang.data.find((item: ILang) => item.name === locale);
+
       const res = await axios.get("http://3.122.24.252:3002/api/product", {
         headers: {
-          lang: "1",
+          lang: String(langObj.id),
         },
       });
       if (res.status !== 200) throw new Error("Some error");

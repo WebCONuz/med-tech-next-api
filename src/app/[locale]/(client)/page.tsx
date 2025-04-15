@@ -8,6 +8,7 @@ import { sertificateData } from "@/types/static.data";
 import { getTranslations } from "next-intl/server";
 import { ProductItem } from "@/types/product.types";
 import Skeleton from "../components/ui/skeleton";
+import { ILang } from "@/types/lang.types";
 
 export const metadata: Metadata = {
   title: "About",
@@ -15,11 +16,15 @@ export const metadata: Metadata = {
 };
 
 const url = process.env.API_URL;
-const getProducts = async () => {
+const getProducts = async (locale: string) => {
+  const res1 = await fetch(`${url}/api/language`);
+  const lang = await res1.json();
+  const langObj = lang.data.find((item: ILang) => item.name === locale);
+
   const res = await fetch(`${url}/api/product`, {
     cache: "no-store",
     headers: {
-      lang: "1",
+      lang: String(langObj.id),
     },
   });
   if (!res.ok) {
@@ -29,11 +34,16 @@ const getProducts = async () => {
   return fullData.data;
 };
 
-export default async function About() {
+export default async function About({
+  params,
+}: {
+  params: Promise<{ id: string; locale: string }>;
+}) {
   const t = await getTranslations("HomePage");
+  const { locale } = await params;
   let loading = true;
   const skeleton: number[] = [1, 2, 3, 4, 5];
-  const products: ProductItem[] = await getProducts();
+  const products: ProductItem[] = await getProducts(locale);
   loading = false;
 
   return (

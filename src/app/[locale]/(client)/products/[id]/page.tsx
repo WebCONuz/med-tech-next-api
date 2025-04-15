@@ -9,6 +9,7 @@ import { FaFacebook } from "react-icons/fa6";
 import { FaTelegram } from "react-icons/fa";
 import { FiInstagram } from "react-icons/fi";
 import { getTranslations } from "next-intl/server";
+import { ILang } from "@/types/lang.types";
 
 const url = process.env.API_URL;
 
@@ -18,21 +19,25 @@ export const metadata: Metadata = {
 };
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 };
 
 export default async function ProductDetails({ params }: Props) {
   const t = await getTranslations("SingleProduct");
-  const { id } = await params;
-  const res = await fetch(`${url}/api/product/${id}`, {
+  const { id, locale } = await params;
+
+  const res1 = await fetch(`${url}/api/language`);
+  if (!res1.ok) throw new Error("Some error");
+  const lang = await res1.json();
+  const langObj = lang.data.find((item: ILang) => item.name === locale);
+
+  const res2 = await fetch(`${url}/api/product/${id}`, {
     headers: {
-      lang: "1",
+      lang: String(langObj.id),
     },
   });
-  if (!res.ok) {
-    throw new Error("Some error");
-  }
-  const product = await res.json();
+  if (!res2.ok) throw new Error("Some error");
+  const product = await res2.json();
 
   return (
     <main>

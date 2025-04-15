@@ -3,8 +3,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 import { FaAngleDown } from "react-icons/fa";
+import { ILang } from "@/types/lang.types";
 
-const LangAccordion = () => {
+const LangAccordion = ({ langs }: { langs: ILang[] }) => {
   const [open, setOpen] = useState(false);
   const accordionRef = useRef<HTMLDivElement>(null);
   const locale = useLocale();
@@ -63,16 +64,19 @@ const LangAccordion = () => {
             : "max-h-0 border-transparent bg-transparent"
         }`}
       >
-        <button
-          onClick={() => changeLang("en")}
-          className={`w-full text-gray-600 outline-0 border-0 text-sm py-1 hover:bg-main-bg duration-200 ${
-            locale === "en" ? "bg-main-bg" : "bg-white"
-          }`}
-        >
-          en
-        </button>
-        <button
-          onClick={() => changeLang("ru")}
+        {langs.map((lang) => (
+          <button
+            key={lang.id}
+            onClick={() => changeLang(lang.name)}
+            className={`w-full text-gray-600 outline-0 border-0 text-sm py-1 hover:bg-main-bg duration-200 ${
+              locale === lang.name ? "bg-main-bg" : "bg-white"
+            }`}
+          >
+            {lang.name}
+          </button>
+        ))}
+        {/* <button
+          onClick={() => changeLang("rus")}
           className={`w-full text-gray-600 outline-0 border-0 text-sm py-1 hover:bg-main-bg duration-200 ${
             locale === "ru" ? "bg-main-bg" : "bg-white"
           }`}
@@ -86,7 +90,7 @@ const LangAccordion = () => {
           }`}
         >
           uz
-        </button>
+        </button> */}
       </div>
     </div>
   );
