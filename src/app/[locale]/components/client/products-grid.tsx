@@ -146,13 +146,13 @@ const ProductsGrid = () => {
               <IoGrid
                 onClick={() => setIsGrid(true)}
                 className={`text-[28px] cursor-pointer ${
-                  isGrid ? "text-main-color" : "text-gray-600"
+                  isGrid ? "text-main-color" : "text-gray-400"
                 }`}
               />
               <FaThList
                 onClick={() => setIsGrid(false)}
                 className={`text-[28px] cursor-pointer ${
-                  !isGrid ? "text-main-color" : "text-gray-600"
+                  !isGrid ? "text-main-color" : "text-gray-400"
                 }`}
               />
             </div>

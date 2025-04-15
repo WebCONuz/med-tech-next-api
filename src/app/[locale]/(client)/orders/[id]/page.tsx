@@ -26,7 +26,6 @@ export default async function OrderItem({ params }: Props) {
     throw new Error("Some error");
   }
   const product = await res.json();
-  console.log(product.data);
 
   return (
     <>

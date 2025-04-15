@@ -1,5 +1,4 @@
 "use client";
-import Button from "@/app/[locale]/components/ui/button";
 import axios from "axios";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -17,6 +16,13 @@ interface OrderFormData {
   status: "START";
 }
 
+const typeCheckbox = [
+  { value: "message", label: "Message" },
+  { value: "complaints", label: "Complaints" },
+  { value: "ask", label: "Ask" },
+  { value: "aftermarket", label: "Aftermarket" },
+];
+
 const OrderForm = ({
   productName,
   productId,
@@ -28,10 +34,10 @@ const OrderForm = ({
   const [formData, setFormData] = useState<OrderFormData>({
     productId: productId,
     company: "",
-    name: "",
+    name: productName,
     phone: "",
     email: "",
-    type: "",
+    type: "message",
     title: "",
     content: "",
     code: "",
@@ -39,14 +45,20 @@ const OrderForm = ({
   });
   const t = useTranslations("SingleOrder");
 
+  const handleTypeChange = (value: string) => {
+    setFormData({
+      ...formData,
+      type: value,
+    });
+  };
+
   const postOrder = async (e: React.FormEvent) => {
     try {
       e.preventDefault();
       setLoading(true);
-      const res = await axios.post("http://3.122.24.252:3002/api/contact", {
+      const res = await axios.post("http://3.122.24.252:3002/api/order", {
         productId: formData.productId,
         company: formData.company,
-        name: formData.name,
         phone: formData.phone,
         email: formData.email,
         type: formData.type,
@@ -69,7 +81,7 @@ const OrderForm = ({
           code: "",
           status: "START",
         });
-        console.log(res.statusText);
+        console.log(res);
       }
     } catch (error) {
       console.log(error);
@@ -105,6 +117,7 @@ const OrderForm = ({
           onChange={(e) =>
             setFormData({ ...formData, company: e.target.value })
           }
+          required
           className="block w-full sm:w-[calc(100%-120px)] outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         />
       </div>
@@ -120,6 +133,7 @@ const OrderForm = ({
           type="text"
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          required
           className="block w-full sm:w-[calc(100%-120px)] outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         />
       </div>
@@ -135,6 +149,7 @@ const OrderForm = ({
           type="text"
           value={formData.phone}
           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+          required
           className="block w-full sm:w-[calc(100%-120px)] outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         />
       </div>
@@ -150,6 +165,7 @@ const OrderForm = ({
           type="email"
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          required
           className="block w-full sm:w-[calc(100%-120px)] outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         />
       </div>
@@ -158,27 +174,20 @@ const OrderForm = ({
           {t("type.title")}
         </span>
         <div className="flex flex-col sm:flex-row gap-y-1 sm:gap-y-0 sm:grid sm:grid-cols-2 sm:gap-x-2 md:flex md:gap-x-4">
-          <div className="flex items-center gap-x-2">
-            <input id="msg" type="radio" name="radio-type" />
-            <label htmlFor="msg">{t("type.opt1")}</label>
-          </div>
-          <div className="flex items-center gap-x-2">
-            <input id="Complaints" type="radio" name="radio-type" />
-            <label htmlFor="Complaints">{t("type.opt2")}</label>
-          </div>
-          <div className="flex items-center gap-x-2">
-            <input id="Ask" type="radio" name="radio-type" />
-            <label htmlFor="Ask">{t("type.opt3")}</label>
-          </div>
-          <div className="flex items-center gap-x-2">
-            <input
-              id="Aftermarket"
-              type="radio"
-              name="radio-type"
-              className=""
-            />
-            <label htmlFor="Aftermarket">{t("type.opt4")}</label>
-          </div>
+          {typeCheckbox.map((item, index) => (
+            <div key={item.label} className="flex items-center gap-x-2">
+              <input
+                type="radio"
+                id={item.label}
+                value={item.value}
+                checked={formData.type === item.value}
+                onChange={(e) => handleTypeChange(e.target.value)}
+                className="form-radio h-4 w-4"
+                required
+              />
+              <label htmlFor={item.label}>{t("type.opt" + (index + 1))}</label>
+            </div>
+          ))}
         </div>
       </div>
       <div className="flex flex-col sm:flex-row sm:items-center sm:gap-x-4">
@@ -193,6 +202,7 @@ const OrderForm = ({
           type="text"
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+          required
           className="block w-full sm:w-[calc(100%-120px)] outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         />
       </div>
@@ -209,6 +219,7 @@ const OrderForm = ({
           onChange={(e) =>
             setFormData({ ...formData, content: e.target.value })
           }
+          required
           className="block w-full sm:w-[calc(100%-120px)] h-[150px] sm:h-[100px] resize-none outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         ></textarea>
       </div>
@@ -222,15 +233,17 @@ const OrderForm = ({
         <div className="flex items-center gap-x-2">
           <input
             id="user-code"
-            type="text"
+            type="number"
             value={formData.code}
             onChange={(e) => setFormData({ ...formData, code: e.target.value })}
             placeholder={t("code.placeholder")}
-            className="block w-28 sm:w-20 outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
+            required
+            className="block no-spinner w-28 sm:w-20 outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
           />
           <img
-            src="http://www.trustmomed.com/includes/code.php"
+            src="/capcha.png"
             alt="code-image"
+            className="w-20 shadow-lg border border-gray-400 rounded-md"
           />
           <p className="hidden sm:block">{t("code.text")}</p>
         </div>
