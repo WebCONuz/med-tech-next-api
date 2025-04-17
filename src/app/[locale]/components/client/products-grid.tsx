@@ -17,12 +17,24 @@ import { useTranslations } from "next-intl";
 import { ProductItem } from "@/types/product.types";
 import Skeleton from "../ui/skeleton";
 import { ILang } from "@/types/lang.types";
+import { categoryType } from "../../admin/user/category/page";
 
 const ProductsGrid = ({ locale }: { locale: string }) => {
   const [isGrid, setIsGrid] = useState(true);
   const [openFilter, setOpenFilter] = useState(false);
+
+  const [langId, setLangId] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<ProductItem[]>([]);
+
+  const [category, setCategory] = useState<ILang[]>([]);
+  const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
+  const [catLoading, setCatLoading] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1); // backend total count asosida hisoblanadi
+  const limit = 9;
+
   const t = useTranslations("ProductsPage");
   const skeleton = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
@@ -32,21 +44,69 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
     }
   };
 
-  async function getProducts() {
+  async function getLangs() {
+    const res1 = await axios.get(`http://3.122.24.252:3002/api/language`);
+    const lang = res1.data;
+    const langObj = lang.data.find((item: ILang) => item.name === locale);
+    if (langObj) {
+      setLangId(langObj.id);
+    }
+  }
+
+  async function getCategories() {
+    setCatLoading(true);
+    const res = await axios.get("http://3.122.24.252:3002/api/category");
+    const categories: categoryType[] = res.data.data;
+    const filterCategory: ILang[] = categories?.map((item) => {
+      let translation = item.translations.find((c) => c.languageId === langId);
+      return { id: item.id, name: translation?.name || "" };
+    });
+    setCategory(filterCategory);
+    setCatLoading(false);
+  }
+
+  async function getProducts(page: number = 1, limit: number = 9) {
     try {
       setLoading(true);
-      const res1 = await axios.get(`http://3.122.24.252:3002/api/language`);
-      const lang = res1.data;
-      const langObj = lang.data.find((item: ILang) => item.name === locale);
-
       const res = await axios.get("http://3.122.24.252:3002/api/product", {
         headers: {
-          lang: String(langObj.id),
+          lang: String(langId),
+        },
+        params: {
+          page,
+          limit,
         },
       });
       if (res.status !== 200) throw new Error("Some error");
-      const prod = res.data.data;
-      setProducts(prod);
+      setProducts(res.data.data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function getProductsByCategory(
+    categoryId: number,
+    page: number = 1,
+    limit: number = 9
+  ) {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        `http://3.122.24.252:3002/api/product/category/${categoryId}`,
+        {
+          headers: {
+            lang: String(langId),
+          },
+          params: {
+            page,
+            limit,
+          },
+        }
+      );
+      if (res.status !== 200) throw new Error("Category product error");
+      setProducts(res.data.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -55,8 +115,14 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
   }
 
   useEffect(() => {
+    getLangs();
+  }, [locale]);
+
+  useEffect(() => {
+    if (!langId) return;
+    getCategories();
     getProducts();
-  }, []);
+  }, [langId]);
 
   return (
     <div className="container flex pt-10 pb-20">
@@ -78,43 +144,46 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
                 className="text-2xl absolute top-1/2 -translate-1/2 right-0 lg:hidden"
               />
             </div>
-            <ul>
-              <li
-                onClick={() => setOpenFilter(false)}
-                className="flex items-center justify-between px-4 py-3 rounded-md cursor-pointer hover:bg-main-bg duration-200"
-              >
-                <span>Hand Sanitizer</span>
-                <FaLongArrowAltRight className="text-main-color text-lg" />
-              </li>
-              <li
-                onClick={() => setOpenFilter(false)}
-                className="flex items-center justify-between px-4 py-3 rounded-md cursor-pointer hover:bg-main-bg duration-200"
-              >
-                <span>Hand Sanitizer</span>
-                <FaLongArrowAltRight className="text-main-color text-lg" />
-              </li>
-              <li
-                onClick={() => setOpenFilter(false)}
-                className="flex items-center justify-between px-4 py-3 rounded-md cursor-pointer hover:bg-main-bg duration-200"
-              >
-                <span>Hand Sanitizer</span>
-                <FaLongArrowAltRight className="text-main-color text-lg" />
-              </li>
-              <li
-                onClick={() => setOpenFilter(false)}
-                className="flex items-center justify-between px-4 py-3 rounded-md cursor-pointer hover:bg-main-bg duration-200"
-              >
-                <span>Hand Sanitizer</span>
-                <FaLongArrowAltRight className="text-main-color text-lg" />
-              </li>
-              <li
-                onClick={() => setOpenFilter(false)}
-                className="flex items-center justify-between px-4 py-3 rounded-md cursor-pointer hover:bg-main-bg duration-200"
-              >
-                <span>Hand Sanitizer</span>
-                <FaLongArrowAltRight className="text-main-color text-lg" />
-              </li>
-            </ul>
+            {catLoading ? (
+              <div className="w-full h-[200px] flex items-center justify-center rounded-md bg-main-bg">
+                <div className="w-6 h-6 rounded-full border border-white border-l-0 animate-spin"></div>
+              </div>
+            ) : (
+              <ul>
+                <li
+                  onClick={() => {
+                    setOpenFilter(false);
+                    setActiveCategoryId(null);
+                    getProducts();
+                  }}
+                  className={`flex items-center justify-between px-4 py-3 rounded-md cursor-pointer duration-200 ${
+                    activeCategoryId === null
+                      ? "bg-main-bg"
+                      : "hover:bg-main-bg"
+                  }`}
+                >
+                  <span>{t("allProducts")}</span>
+                </li>
+                {category.map((item) => (
+                  <li
+                    key={item.id}
+                    onClick={() => {
+                      setOpenFilter(false);
+                      setActiveCategoryId(item.id);
+                      getProductsByCategory(item.id); // qo‘shamiz pastda
+                    }}
+                    className={`flex items-center justify-between px-4 py-3 rounded-md cursor-pointer duration-200 ${
+                      activeCategoryId === item.id
+                        ? "bg-main-bg"
+                        : "hover:bg-main-bg"
+                    }`}
+                  >
+                    <span>{item.name}</span>
+                    <FaLongArrowAltRight className="text-main-color text-lg" />
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* <div className="mb-5 px-4 py-6 border border-gray-300 rounded-md">

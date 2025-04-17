@@ -33,7 +33,7 @@ export default async function ProductDetails({ params }: Props) {
 
   const res2 = await fetch(`${url}/api/product/${id}`, {
     headers: {
-      lang: String(langObj.id),
+      lang: String(langObj?.id),
     },
   });
   if (!res2.ok) throw new Error("Some error");

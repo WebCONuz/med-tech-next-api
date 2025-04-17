@@ -26,6 +26,7 @@
       "title1": "Product Categories",
       "title2": "Top Rated Product"
     },
+    "allProducts": "All products",
     "info": "Showing {start}–{end} of {total} results",
     "btn1": "Show product",
     "btn2": "Order"

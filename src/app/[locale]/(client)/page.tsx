@@ -24,7 +24,7 @@ const getProducts = async (locale: string) => {
   const res = await fetch(`${url}/api/product`, {
     cache: "no-store",
     headers: {
-      lang: String(langObj.id),
+      lang: String(langObj?.id),
     },
   });
   if (!res.ok) {
