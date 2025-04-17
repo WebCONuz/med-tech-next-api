@@ -1,16 +1,17 @@
 import Link from "next/link";
 import React from "react";
 import { FaStar } from "react-icons/fa";
+import { ProductItem } from "@/types/product.types";
 
-const TopProductCard = () => {
+const TopProductCard = ({ data }: { data: ProductItem }) => {
   return (
     <div className="w-full flex items-center gap-x-3">
       <Link
-        href="#"
+        href={`/products/${data.id}`}
         className="flex w-1/4 py-2 px-3 bg-main-bg rounded-md overflow-hidden"
       >
         <img
-          src="https://tunatheme.com/tf/html/vicodin-preview/vicodin/img/product/3.png"
+          src={`http://3.122.24.252:3002/${data?.images}`}
           alt="product-image"
           className="w-full object-center"
         />
@@ -27,7 +28,7 @@ const TopProductCard = () => {
           href="#"
           className="block text-gray-600 duration-200 hover:text-main-color"
         >
-          <b className="text-sm">Mixel Solid Seat Cover</b>
+          <b className="text-sm">{data?.name}</b>
         </Link>
       </div>
     </div>

@@ -267,10 +267,9 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
               <h5 className="font-semibold">{t("aside.title2")}</h5>
             </div>
             <div className="flex flex-col gap-y-3">
-              <TopProductCard />
-              <TopProductCard />
-              <TopProductCard />
-              <TopProductCard />
+              {products.map((item) => (
+                <TopProductCard key={item.id} data={item} />
+              ))}
             </div>
           </div>
 

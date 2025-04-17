@@ -16,7 +16,9 @@ const links = [
 const Sidebar = () => {
   const router = useRouter();
   const logout = () => {
-    router.push("/admin");
+    localStorage.removeItem("dmin_uth");
+    localStorage.removeItem("access_token");
+    router.push("/admin/login");
   };
 
   return (

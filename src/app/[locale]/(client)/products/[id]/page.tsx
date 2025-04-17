@@ -10,6 +10,7 @@ import { FaTelegram } from "react-icons/fa";
 import { FiInstagram } from "react-icons/fi";
 import { getTranslations } from "next-intl/server";
 import { ILang } from "@/types/lang.types";
+import { ProductItem } from "@/types/product.types";
 
 const url = process.env.API_URL;
 
@@ -27,7 +28,7 @@ export default async function ProductDetails({ params }: Props) {
   const { id, locale } = await params;
 
   const res1 = await fetch(`${url}/api/language`);
-  if (!res1.ok) throw new Error("Some error");
+  if (!res1.ok) throw new Error("Language error");
   const lang = await res1.json();
   const langObj = lang.data.find((item: ILang) => item.name === locale);
 
@@ -36,8 +37,20 @@ export default async function ProductDetails({ params }: Props) {
       lang: String(langObj?.id),
     },
   });
-  if (!res2.ok) throw new Error("Some error");
+  if (!res2.ok) throw new Error("Product by id error");
   const product = await res2.json();
+
+  const res3 = await fetch(
+    `${url}/api/product/category/${product.data?.categoryId}`,
+    {
+      headers: {
+        lang: String(langObj?.id),
+      },
+    }
+  );
+  if (!res3.ok) throw new Error("Related product error");
+  const relatedProducts = await res3.json();
+  const relationData: ProductItem[] = relatedProducts.data;
 
   return (
     <main>
@@ -115,10 +128,9 @@ export default async function ProductDetails({ params }: Props) {
               <h5 className="font-semibold">{t("top")}</h5>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex flex-col gap-y-3">
-              <TopProductCard />
-              <TopProductCard />
-              <TopProductCard />
-              <TopProductCard />
+              {relationData?.map((item) => (
+                <TopProductCard key={item?.id} data={item} />
+              ))}
             </div>
           </div>
         </div>
