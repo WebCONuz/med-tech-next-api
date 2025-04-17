@@ -1,11 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Accordion from "@/app/[locale]/components/ui/accordion";
+import { useTranslations } from "next-intl";
+// import Accordion from "@/app/[locale]/components/ui/accordion";
 import TopProductCard from "@/app/[locale]/components/ui/top-product-card";
 import ProductCard from "@/app/[locale]/components/ui/product-card";
 import RowProductCard from "@/app/[locale]/components/ui/row-product-card";
 import Pagination from "@/app/[locale]/components/ui/pagination";
+import { ProductItem } from "@/types/product.types";
+import { ILang } from "@/types/lang.types";
+import { categoryType } from "../../admin/user/category/page";
+import Skeleton from "../ui/skeleton";
+import EmptyData from "../ui/empty-data";
 
 import { IoGrid } from "react-icons/io5";
 import { FaThList } from "react-icons/fa";
@@ -13,11 +19,7 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 import { LuChartColumnIncreasing } from "react-icons/lu";
 import { FaSliders } from "react-icons/fa6";
 import { MdClose } from "react-icons/md";
-import { useTranslations } from "next-intl";
-import { ProductItem } from "@/types/product.types";
-import Skeleton from "../ui/skeleton";
-import { ILang } from "@/types/lang.types";
-import { categoryType } from "../../admin/user/category/page";
+import { FiSearch } from "react-icons/fi";
 
 const ProductsGrid = ({ locale }: { locale: string }) => {
   const [isGrid, setIsGrid] = useState(true);
@@ -26,6 +28,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
   const [langId, setLangId] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState<ProductItem[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const [category, setCategory] = useState<ILang[]>([]);
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
@@ -79,8 +82,6 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
         },
       });
       if (res.status !== 200) throw new Error("Some error");
-      console.log(res.data.data.data);
-
       setProducts(res.data.data.data);
       setTotalPages(Math.ceil(res.data.data.total / limit));
     } catch (error) {
@@ -120,11 +121,54 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
     }
   }
 
+  // get by search
+  async function searchProducts(
+    term: string,
+    page: number = 1,
+    limit: number = 9
+  ) {
+    try {
+      setLoading(true);
+      const res = await axios.get(
+        "http://3.122.24.252:3002/api/product/search",
+        {
+          headers: {
+            lang: String(langId),
+          },
+          params: {
+            term,
+            page,
+            limit,
+          },
+        }
+      );
+      if (res.status !== 200) throw new Error("Search error");
+      const filtered = res.data.data.data?.map((item: any) => ({
+        id: item?.id,
+        categoryId: item?.categoryId,
+        categoryName: item?.category?.translations?.[0]?.name,
+        images: item?.images,
+        name: item?.translations?.[0]?.name,
+        description: item?.translations?.[0]?.description,
+        languageId: item?.translations?.[0]?.languageId,
+      }));
+      setProducts(filtered);
+      setTotalPages(Math.ceil(res.data.data.total / limit)); // agar total kelayotgan bo‘lsa
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   // get by pagination
   const handlePageChange = ({ selected }: { selected: number }) => {
     const newPage = selected + 1;
     setCurrentPage(newPage);
-    if (activeCategoryId) {
+
+    if (searchTerm) {
+      searchProducts(searchTerm, newPage, limit);
+    } else if (activeCategoryId) {
       getProductsByCategory(activeCategoryId, newPage, limit);
     } else {
       getProducts(newPage, limit);
@@ -140,6 +184,12 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
     getCategories();
     getProducts(1, limit);
   }, [langId]);
+
+  useEffect(() => {
+    if (searchTerm === "") {
+      getProducts(currentPage, limit);
+    }
+  }, [searchTerm]);
 
   return (
     <div className="container flex pt-10 pb-20">
@@ -233,7 +283,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
       </aside>
       <main className="w-full lg:w-2/3 xl:w-3/4 min-h-[calc(100vh-118px-88px)] lg:pl-6">
         <nav className=" py-2 mb-8 xl:mb-10">
-          <div className="flex items-center justify-between mb-4 sm:mb-0">
+          <div className="flex items-center justify-between">
             <div className="flex gap-x-2">
               <IoGrid
                 onClick={() => setIsGrid(true)}
@@ -249,10 +299,44 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
               />
             </div>
             <p className="hidden sm:block text-gray-600">
-              {t("info", { start: 1, end: 6, total: 23 })}
+              {t("info", {
+                start: (currentPage - 1) * limit + 1,
+                end: limit * currentPage,
+                total: totalPages,
+              })}
             </p>
             <div className="flex gap-x-2 lg:gap-x-0">
-              <Accordion />
+              {/* <Accordion /> */}
+
+              <div className="relative hidden md:block">
+                <input
+                  id="search_input"
+                  type="text"
+                  placeholder={t("placeholder")}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      setCurrentPage(1);
+                      searchProducts(searchTerm, 1, limit);
+                    }
+                  }}
+                  className="outline-none border border-gray-300 py-[6px] md:py-2 pl-9 pr-4 rounded-4xl w-[200px] xl:w-[300px] placeholder:text-gray-400 text-gray-600"
+                />
+                <label
+                  htmlFor="search_input"
+                  onClick={() => {
+                    if (searchTerm) {
+                      setCurrentPage(1);
+                      searchProducts(searchTerm, 1, limit);
+                    }
+                  }}
+                  className="absolute left-5 top-1/2 -translate-1/2 cursor-pointer"
+                >
+                  <FiSearch className="text-xl text-gray-400" />
+                </label>
+              </div>
+
+              {/* bar */}
               <div
                 onClick={() => setOpenFilter(true)}
                 className="lg:hidden flex items-center justify-center py-[6px] sm:py-2 px-2 sm:px-3 border border-gray-400 rounded-md"
@@ -261,9 +345,45 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
               </div>
             </div>
           </div>
-          <p className="sm:hidden text-gray-600">Showing 1–12 of 18 results</p>
+          <div className="mt-4 mb-2 relative md:hidden">
+            <input
+              id="search_input_res"
+              type="text"
+              placeholder={t("placeholder")}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setCurrentPage(1);
+                  searchProducts(searchTerm, 1, limit);
+                }
+              }}
+              className="outline-none border border-gray-300 py-[6px] pl-9 pr-4 rounded-4xl w-full placeholder:text-gray-400 text-gray-600"
+            />
+            <label
+              htmlFor="search_input_res"
+              onClick={() => {
+                if (searchTerm) {
+                  setCurrentPage(1);
+                  searchProducts(searchTerm, 1, limit);
+                }
+              }}
+              className="absolute left-5 top-1/2 -translate-1/2 cursor-pointer"
+            >
+              <FiSearch className="text-xl text-gray-400" />
+            </label>
+          </div>
+          <p className="sm:hidden text-gray-600">
+            {t("info", {
+              start: (currentPage - 1) * limit + 1,
+              end: limit * currentPage,
+              total: totalPages,
+            })}
+          </p>
         </nav>
-        {isGrid ? (
+
+        {products.length === 0 ? (
+          <EmptyData title={t("empty_title")} />
+        ) : isGrid ? (
           <div className="grid grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-5 md:gap-6 lg:gap-7 xl:gap-8">
             {!loading
               ? products?.map((item) => (
@@ -280,11 +400,14 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
               : skeleton?.map((item) => <Skeleton height="200px" key={item} />)}
           </div>
         )}
-        <Pagination
-          pageCount={totalPages}
-          currentPage={currentPage}
-          onPageChange={handlePageChange}
-        />
+
+        {totalPages > 1 && (
+          <Pagination
+            pageCount={totalPages}
+            currentPage={currentPage}
+            onPageChange={handlePageChange}
+          />
+        )}
       </main>
     </div>
   );

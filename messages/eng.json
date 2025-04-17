@@ -28,6 +28,8 @@
     },
     "allProducts": "All products",
     "info": "Showing {start}–{end} of {total} results",
+    "placeholder": "Search...",
+    "empty_title": "Empty Data!!!",
     "btn1": "Show product",
     "btn2": "Order"
   },

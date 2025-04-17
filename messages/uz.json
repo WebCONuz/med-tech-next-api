@@ -28,6 +28,8 @@
     },
     "allProducts": "Barchasi",
     "info": "{start}–{end} ko'rsatilmoqda, jami {total} ta natija",
+    "placeholder": "Qidirish...",
+    "empty_title": "Bo'sh ma'lumot!!!",
     "btn1": "Ko'rish",
     "btn2": "Buyurtma"
   },
