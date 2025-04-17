@@ -4,8 +4,8 @@ import axios from "axios";
 import Accordion from "@/app/[locale]/components/ui/accordion";
 import TopProductCard from "@/app/[locale]/components/ui/top-product-card";
 import ProductCard from "@/app/[locale]/components/ui/product-card";
-import Button from "@/app/[locale]/components/ui/button";
 import RowProductCard from "@/app/[locale]/components/ui/row-product-card";
+import Pagination from "@/app/[locale]/components/ui/pagination";
 
 import { IoGrid } from "react-icons/io5";
 import { FaThList } from "react-icons/fa";
@@ -33,7 +33,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1); // backend total count asosida hisoblanadi
-  const limit = 9;
+  const limit = 3;
 
   const t = useTranslations("ProductsPage");
   const skeleton = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -65,6 +65,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
     setCatLoading(false);
   }
 
+  // get all
   async function getProducts(page: number = 1, limit: number = 9) {
     try {
       setLoading(true);
@@ -78,7 +79,10 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
         },
       });
       if (res.status !== 200) throw new Error("Some error");
-      setProducts(res.data.data);
+      console.log(res.data.data.data);
+
+      setProducts(res.data.data.data);
+      setTotalPages(Math.ceil(res.data.data.total / limit));
     } catch (error) {
       console.log(error);
     } finally {
@@ -86,6 +90,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
     }
   }
 
+  // get by category
   async function getProductsByCategory(
     categoryId: number,
     page: number = 1,
@@ -106,13 +111,25 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
         }
       );
       if (res.status !== 200) throw new Error("Category product error");
-      setProducts(res.data.data);
+      setProducts(res.data.data.data);
+      setTotalPages(Math.ceil(res.data.data.total / limit));
     } catch (error) {
       console.log(error);
     } finally {
       setLoading(false);
     }
   }
+
+  // get by pagination
+  const handlePageChange = ({ selected }: { selected: number }) => {
+    const newPage = selected + 1;
+    setCurrentPage(newPage);
+    if (activeCategoryId) {
+      getProductsByCategory(activeCategoryId, newPage, limit);
+    } else {
+      getProducts(newPage, limit);
+    }
+  };
 
   useEffect(() => {
     getLangs();
@@ -121,7 +138,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
   useEffect(() => {
     if (!langId) return;
     getCategories();
-    getProducts();
+    getProducts(1, limit);
   }, [langId]);
 
   return (
@@ -154,7 +171,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
                   onClick={() => {
                     setOpenFilter(false);
                     setActiveCategoryId(null);
-                    getProducts();
+                    getProducts(1, limit);
                   }}
                   className={`flex items-center justify-between px-4 py-3 rounded-md cursor-pointer duration-200 ${
                     activeCategoryId === null
@@ -170,7 +187,8 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
                     onClick={() => {
                       setOpenFilter(false);
                       setActiveCategoryId(item.id);
-                      getProductsByCategory(item.id); // qo‘shamiz pastda
+                      getProductsByCategory(item.id, 1, limit);
+                      setCurrentPage(1);
                     }}
                     className={`flex items-center justify-between px-4 py-3 rounded-md cursor-pointer duration-200 ${
                       activeCategoryId === item.id
@@ -262,13 +280,11 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
               : skeleton?.map((item) => <Skeleton height="200px" key={item} />)}
           </div>
         )}
-        <div className="flex justify-center items-center gap-x-2 mt-10">
-          <Button>1</Button>
-          <Button>2</Button>
-          <Button>3</Button>
-          <span className="text-2xl">...</span>
-          <Button>12</Button>
-        </div>
+        <Pagination
+          pageCount={totalPages}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
       </main>
     </div>
   );

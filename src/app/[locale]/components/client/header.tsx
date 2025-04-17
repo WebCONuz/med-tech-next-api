@@ -138,6 +138,7 @@ const Header = ({ locale }: { locale: string }) => {
         <div className="relative hidden md:block">
           <input
             id="search_input"
+            disabled
             type="text"
             placeholder={t("placeholder")}
             className="outline-none border border-gray-300 py-[6px] lg:py-2 pl-9 pr-4 rounded-4xl w-[250px] lg:w-[300px] placeholder:text-gray-400 text-gray-600"
