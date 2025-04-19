@@ -1,35 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ModalBase from "../modal-base";
-
-// language type
-interface langType {
-  id: number;
-  name: string;
-}
-const langs: langType[] = [
-  {
-    id: 1,
-    name: "eng",
-  },
-  {
-    id: 2,
-    name: "uz",
-  },
-  {
-    id: 3,
-    name: "rus",
-  },
-];
-
-// category type
-interface Translation {
-  name: string;
-  languageId: number;
-}
-interface CategoryFormData {
-  logo: File | string;
-  translations: Translation[];
-}
+import { CategoryFormData, Translation } from "@/types/category.types";
+import { ILang } from "@/types/lang.types";
+import { createCategory, updateCategory } from "@/lib/category";
 
 // props structure
 interface CategoryModalProps {
@@ -39,12 +12,16 @@ interface CategoryModalProps {
     logo: string;
     translations: Translation[];
   };
+  langs: ILang[];
+  id: number;
 }
 
 const CategoryModal = ({
   isOpen,
   closeModal,
   initialData,
+  langs,
+  id,
 }: CategoryModalProps) => {
   // form values
   const [formData, setFormData] = useState<CategoryFormData>({
@@ -70,8 +47,16 @@ const CategoryModal = ({
           };
         }),
       });
+    } else {
+      setFormData({
+        logo: "",
+        translations: langs.map((lang) => ({
+          name: "",
+          languageId: lang.id,
+        })),
+      });
     }
-  }, [initialData]);
+  }, [initialData, langs]);
 
   // close & reset modal
   const reset = () => {
@@ -104,12 +89,14 @@ const CategoryModal = ({
   };
 
   // CREATE & UPDATE LOGIC
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (initialData) {
-      console.log("Update: ", formData); // UPDATE LOGIC
+      console.log("Update: ", id); // UPDATE LOGIC
+      await updateCategory(id, formData);
     } else {
       console.log("Create: ", formData); // CREATE LOGIC
+      await createCategory(formData);
     }
 
     reset();
