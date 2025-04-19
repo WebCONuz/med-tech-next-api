@@ -1,57 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ModalBase from "../modal-base";
-
-// language type
-type langType = {
-  id: number;
-  name: string;
-};
-const langs: langType[] = [
-  {
-    id: 1,
-    name: "eng",
-  },
-  {
-    id: 2,
-    name: "uz",
-  },
-  {
-    id: 3,
-    name: "rus",
-  },
-];
-
-// category type
-interface Category {
-  id: number;
-  name: string;
-}
-const categories: Category[] = [
-  {
-    id: 1,
-    name: "Diagnostic Tools",
-  },
-  {
-    id: 2,
-    name: "Surgical Instruments",
-  },
-  {
-    id: 3,
-    name: "Therapeutic Devices",
-  },
-];
-
-// product type
-interface Translation {
-  name: string;
-  description: string;
-  languageId: number;
-}
-interface ProductFormData {
-  categoryId: number;
-  images: File | string;
-  translations: Translation[];
-}
+import { ProductFormData, TranslationProduct } from "@/types/product.types";
+import { ILang } from "@/types/lang.types";
+import { createProduct } from "@/lib/product";
 
 // props structure
 interface ProductModalProps {
@@ -60,14 +11,18 @@ interface ProductModalProps {
   initialData?: {
     categoryId: number;
     images: string;
-    translations: Translation[];
+    translations: TranslationProduct[];
   };
+  langs: ILang[];
+  categories: ILang[];
 }
 
 const ProductModal = ({
   isOpen,
   closeModal,
   initialData,
+  langs,
+  categories,
 }: ProductModalProps) => {
   // form values
   const [formData, setFormData] = useState<ProductFormData>({
@@ -112,13 +67,23 @@ const ProductModal = ({
           };
         }),
       });
+    } else {
+      setFormData({
+        categoryId: categories[0]?.id || 0,
+        images: "",
+        translations: langs.map((lang) => ({
+          name: "",
+          description: "",
+          languageId: lang.id,
+        })),
+      });
     }
-  }, [initialData]);
+  }, [initialData, langs]);
 
   // handle file input
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0]) {
-      setFormData((prev) => ({ ...prev, logo: e.target.files![0] }));
+      setFormData((prev) => ({ ...prev, images: e.target.files![0] }));
     }
   };
 
@@ -137,14 +102,21 @@ const ProductModal = ({
   };
 
   // CREATE & UPDATE LOGIC
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (initialData) {
-      console.log("Update: ", formData); // UPDATE LOGIC
-    } else {
-      console.log("Create: ", formData); // CREATE LOGIC
+    try {
+      if (initialData) {
+        console.log("Update: ", formData); // UPDATE LOGIC
+      } else {
+        console.log("Create: ", formData); // CREATE LOGIC
+        await createProduct(formData);
+        alert("Product is created");
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      reset();
     }
-    reset();
   };
   return (
     <ModalBase isOpen={isOpen} closeModal={reset} classes="w-2/3">
