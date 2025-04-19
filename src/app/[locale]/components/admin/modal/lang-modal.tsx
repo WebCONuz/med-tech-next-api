@@ -1,15 +1,24 @@
 import React, { useEffect, useState } from "react";
 import ModalBase from "../modal-base";
-import { langType } from "../../../admin/user/lang/page";
+import { LangItem } from "@/types/lang.types";
+import axiosInstance from "@/lib/axios";
 
 // props structure
 interface LangModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  initialData?: langType;
+  initialData?: LangItem;
+  id: number;
+  detaData: () => void;
 }
 
-const LangModal = ({ isOpen, closeModal, initialData }: LangModalProps) => {
+const LangModal = ({
+  isOpen,
+  closeModal,
+  initialData,
+  id,
+  detaData,
+}: LangModalProps) => {
   // form values
   const [formData, setFormData] = useState<string>("");
 
@@ -32,13 +41,15 @@ const LangModal = ({ isOpen, closeModal, initialData }: LangModalProps) => {
   };
 
   // CREATE & UPDATE LOGIC
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Create: ", { name: formData });
     if (initialData) {
-      console.log("Update: ", { id: initialData.id, name: formData }); // UPDATE LOGIC
+      await axiosInstance.patch(`/api/language/${id}`, { name: formData }); // UPDATE LOGIC
     } else {
-      console.log("Create: ", formData); // CREATE LOGIC
+      await axiosInstance.post("/api/language", { name: formData }); // CREATE LOGIC
     }
+    await detaData();
     reset();
   };
 
