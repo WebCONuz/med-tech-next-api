@@ -7,10 +7,25 @@ import { BsEnvelope } from "react-icons/bs";
 import { LiaPhoneVolumeSolid } from "react-icons/lia";
 import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Contact",
-  description: "Contact page",
+type Props = {
+  params: Promise<{ locale: string }>;
 };
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Seo.Contact" });
+
+  const baseUrl = `https://berlinmed-export.com/${locale}/contact`;
+
+  return {
+    title: t("title"),
+    description: t("description"),
+    keywords: t("keywords"),
+    alternates: {
+      canonical: baseUrl,
+    },
+  };
+}
 
 export default async function Products() {
   const t = await getTranslations("ContactPage");

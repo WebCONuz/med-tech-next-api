@@ -12,24 +12,14 @@ import { getTranslations } from "next-intl/server";
 import { ILang } from "@/types/lang.types";
 import { ProductItem } from "@/types/product.types";
 
-export const metadata: Metadata = {
-  title: "Product details",
-  description: "Product details page",
-};
-
-type Props = {
-  params: Promise<{ id: string; locale: string }>;
-};
-
-export default async function ProductDetails({ params }: Props) {
-  const t = await getTranslations("SingleProduct");
-  const { id, locale } = await params;
-
+const fetchProducts = async (id: number, locale: string) => {
+  // get langs
   const res1 = await fetch(`https://api.berlinmed-export.com/api/language`);
   if (!res1.ok) throw new Error("Language error");
   const lang = await res1.json();
   const langObj = lang.data.find((item: ILang) => item.name === locale);
 
+  // get products
   const res2 = await fetch(
     `https://api.berlinmed-export.com/api/product/${id}`,
     {
@@ -41,16 +31,52 @@ export default async function ProductDetails({ params }: Props) {
   if (!res2.ok) throw new Error("Product by id error");
   const product = await res2.json();
 
+  return { product, lang: langObj };
+};
+
+// get releted products
+const fetchRelatedProducts = async (categoryId: number, langId: number) => {
   const res3 = await fetch(
-    `https://api.berlinmed-export.com/api/product/category/${product.data?.categoryId}`,
+    `https://api.berlinmed-export.com/api/product/category/${categoryId}`,
     {
       headers: {
-        lang: String(langObj?.id),
+        lang: String(langId),
       },
     }
   );
   if (!res3.ok) throw new Error("Related product error");
-  const relatedProducts = await res3.json();
+  return res3.json();
+};
+
+type Props = {
+  params: Promise<{ id: string; locale: string }>;
+};
+
+// metadata
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id, locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Seo.Product" });
+  const { product } = await fetchProducts(+id, locale);
+  return {
+    title: `${product?.data?.name} | ${t("title")}`,
+    description: product?.data?.description || t("description"),
+    keywords: `${product?.data?.categoryName}, ${product?.data?.type}, ${t(
+      "keywords"
+    )}`,
+    openGraph: {
+      images: [product?.data?.images],
+    },
+  };
+}
+
+export default async function ProductDetails({ params }: Props) {
+  const t = await getTranslations("SingleProduct");
+  const { id, locale } = await params;
+  const { product, lang } = await fetchProducts(+id, locale);
+  const relatedProducts = await fetchRelatedProducts(
+    product.data?.categoryId,
+    lang?.id
+  );
   const relationData: ProductItem[] = relatedProducts.data;
 
   return (

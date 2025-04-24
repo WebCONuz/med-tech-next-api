@@ -43,7 +43,7 @@ const Header = ({ locale }: { locale: string }) => {
 
   const activeLink = (pageHref: string): boolean => {
     const href =
-      locale === "eng"
+      locale === "ru"
         ? pageHref
         : pageHref === "/"
         ? `/${locale}`

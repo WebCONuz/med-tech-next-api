@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useTranslations } from "next-intl";
-// import Accordion from "@/app/[locale]/components/ui/accordion";
 import TopProductCard from "@/app/[locale]/components/ui/top-product-card";
 import ProductCard from "@/app/[locale]/components/ui/product-card";
 import RowProductCard from "@/app/[locale]/components/ui/row-product-card";

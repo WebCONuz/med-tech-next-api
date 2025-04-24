@@ -9,47 +9,58 @@ import { getTranslations } from "next-intl/server";
 import { ProductItem } from "@/types/product.types";
 import Skeleton from "../components/ui/skeleton";
 import { ILang } from "@/types/lang.types";
+import EmptyData from "../components/ui/empty-data";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "About page",
+type Props = {
+  params: Promise<{ locale: string }>;
 };
 
-// export async function generateMetadata({ params }: { params: { locale: string } }) {
-//   const t = await getTranslations("seo")
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { locale } = await params;
+  const supportedLocales = ["en", "ru", "ar"];
+  const safeLocale = supportedLocales.includes(locale) ? locale : "en";
 
-//   return {
-//     title: t.home.title,
-//     description: t.home.description
-//   }
-// }
+  const t = await getTranslations({
+    locale: safeLocale,
+    namespace: "Seo.Home",
+  });
 
-// app/page.tsx yoki app/layout.tsx dan metadata export qilinadi
-// export const metadata = {
-//   title: "Best Online Store - Shop High-Quality Products",
-//   description: "Welcome to our online store. Discover top-quality products, great deals, and fast delivery. Shop now!",
-//   keywords: "online store, best products, affordable, fast shipping, home shopping",
-//   openGraph: {
-//     title: "Best Online Store",
-//     description: "Discover top-quality products at affordable prices.",
-//     url: "https://yourdomain.com",
-//     siteName: "Your Store Name",
-//     images: [
-//       {
-//         url: "https://yourdomain.com/og-image.jpg",
-//         width: 1200,
-//         height: 630,
-//         alt: "Best Online Store",
-//       },
-//     ],
-//     locale: "en_US",
-//     type: "website",
-//   },
-//   robots: {
-//     index: true,
-//     follow: true,
-//   },
-// };
+  const baseUrl = "https://berlinmed-export.com";
+  const imagePath = `${baseUrl}/berlinmed.jpg`;
+
+  return {
+    metadataBase: new URL(baseUrl),
+    title: t("title"),
+    description: t("description"),
+    keywords: t("keywords"),
+    alternates: {
+      canonical: "/",
+      languages: {
+        "x-default": "/",
+        ru: "/",
+        en: "/en",
+        ar: "/ar",
+      },
+    },
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      images: [
+        {
+          url: imagePath,
+          width: 1500,
+          height: 1500,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: t("title"),
+      description: t("description"),
+      images: [imagePath],
+    },
+  };
+}
 
 const getProducts = async (locale: string) => {
   const res1 = await fetch(`https://api.berlinmed-export.com/api/language`);
@@ -71,11 +82,7 @@ const getProducts = async (locale: string) => {
   return fullData.data;
 };
 
-export default async function About({
-  params,
-}: {
-  params: Promise<{ id: string; locale: string }>;
-}) {
+export default async function About({ params }: Props) {
   const t = await getTranslations("HomePage");
   const { locale } = await params;
   let loading = true;
@@ -117,22 +124,30 @@ export default async function About({
       <section className="pb-10 sm:pb-12 lg:pb-14 xl:pb-16">
         <div className="container">
           <Title title={t("featured_title")} />
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-5 xl:gap-6">
-            {!loading
-              ? products.map(
-                  (item) =>
-                    item.id < 6 && <ProductCard key={item.id} data={item} />
-                )
-              : skeleton.map((item) => <Skeleton height="300px" key={item} />)}
-          </div>
-          <div className="w-full flex justify-center mt-8 md:mt-10">
-            <Link
-              href="/products"
-              className="rounded font-medium transition-colors py-[6px] sm:py-2 px-3 sm:px-4 text-sm sm:text-base text-center bg-main-color hover:bg-main-bg text-white hover:text-black"
-            >
-              {t("btn_text")}
-            </Link>
-          </div>
+          {products.length === 0 ? (
+            <EmptyData title="Empty data!" />
+          ) : (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 lg:gap-5 xl:gap-6">
+                {!loading
+                  ? products.map(
+                      (item) =>
+                        item.id < 6 && <ProductCard key={item.id} data={item} />
+                    )
+                  : skeleton.map((item) => (
+                      <Skeleton height="300px" key={item} />
+                    ))}
+              </div>
+              <div className="w-full flex justify-center mt-8 md:mt-10">
+                <Link
+                  href="/products"
+                  className="rounded font-medium transition-colors py-[6px] sm:py-2 px-3 sm:px-4 text-sm sm:text-base text-center bg-main-color hover:bg-main-bg text-white hover:text-black"
+                >
+                  {t("btn_text")}
+                </Link>
+              </div>
+            </>
+          )}
         </div>
       </section>
 

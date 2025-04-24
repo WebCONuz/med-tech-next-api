@@ -3,14 +3,24 @@ import Title from "@/app/[locale]/components/ui/title";
 import OrderForm from "@/app/[locale]/components/client/order-form";
 import { getTranslations } from "next-intl/server";
 
-export const metadata: Metadata = {
-  title: "Orders",
-  description: "Orders page",
+type Props = {
+  params: Promise<{ id: string; locale: string }>;
 };
 
-type Props = {
-  params: Promise<{ id: string }>;
-};
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id, locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Seo.Order" });
+
+  return {
+    title: t("title", { id }),
+    description: t("description"),
+    robots: "noindex, nofollow", // Buyurtma sahifalari indekslanmasligi kerak
+    openGraph: {
+      title: t("og_title"),
+      description: t("og_description"),
+    },
+  };
+}
 
 export default async function OrderItem({ params }: Props) {
   const t = await getTranslations("SingleOrder");

@@ -1,4 +1,34 @@
 {
+  "Seo": {
+    "Home": {
+      "title": "Medtexnika - Tibbiy uskunalar va asboblar",
+      "description": "Dunyoning etakchi tibbiy uskunalari yetkazib beruvchisi. Klinikalar va shaxsiy foydalanish uchun professional jihozlash.",
+      "keywords": "tibbiy asboblar, medtexnika, xirurgik uskunalar, laboratoriya jihozlari, tibbiy buyumlar"
+    },
+    "Products": {
+      "title": "Barcha Tibbiy Mahsulotlar | Medtexnika",
+      "description": "500+ turdagi professional tibbiy asboblar va uskunalar katalogi. Eng so'nggi texnologiyalar asosida ishlab chiqarilgan.",
+      "keywords": "tibbiy jihozlar katalogi, xirurgik asboblar, reanimatsiya uskunalari, diagnostika qurilmalari",
+      "og_title": "Professional Tibbiy Asboblar Katalogi",
+      "og_description": "Dunyo standartidagi tibbiy uskunalar to'plami"
+    },
+    "Contact": {
+      "title": "Tibbiy Uskunalar Bilan Bog‘lanish | MedEquipment",
+      "description": "24/7 mijozlarni qo‘llab-quvvatlash xizmati: buyurtma va maslahatlar. Dunyo bo‘ylab yetkazib berish mavjud.",
+      "keywords": "tibbiy uskunalar bog‘lanish, shifoxona jihozlari qo‘llab-quvvatlash, tibbiy maslahat"
+    },
+    "Product": {
+      "title": "Tibbiy uskunalar",
+      "description": "Rasmiy yetkazib beruvchidan professional tibbiy uskunalar",
+      "keywords": "tibbiy uskuna xarid qilish, narxi, texnik tavsifi"
+    },
+    "Order": {
+      "title": "Buyurtma №{id} | Medtexnika",
+      "description": "Tibbiy uskunalar buyurtmasi muvaffaqiyatli qabul qilindi",
+      "og_title": "Tibbiy Buyumlar Buyurtmasi",
+      "og_description": "Professional jihozlarni xavfsiz buyurtma qiling"
+    }
+  },
   "header": {
     "address": "15/A, Nest Tower, Nyu-York",
     "nav": {

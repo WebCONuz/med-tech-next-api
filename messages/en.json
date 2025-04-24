@@ -1,4 +1,34 @@
 {
+  "Seo": {
+    "Home": {
+      "title": "MedEquipment - Medical Devices & Tools",
+      "description": "Global supplier of world-class medical equipment. Professional devices for clinics and personal use.",
+      "keywords": "medical instruments, hospital equipment, surgical tools, lab devices, healthcare products"
+    },
+    "Products": {
+      "title": "All Medical Products | MedEquipment",
+      "description": "A catalog of 500+ types of professional medical tools and equipment. Manufactured with cutting-edge technology.",
+      "keywords": "medical equipment catalog, surgical instruments, resuscitation devices, diagnostic tools",
+      "og_title": "Professional Medical Equipment Catalog",
+      "og_description": "A collection of world-standard medical devices"
+    },
+    "Contact": {
+      "title": "Contact Medical Equipment Suppliers | MedEquipment",
+      "description": "24/7 customer support for medical devices orders and consultations. Worldwide shipping available.",
+      "keywords": "medical equipment contact, hospital supplies support, healthcare consultation"
+    },
+    "Product": {
+      "title": "Medical Equipment",
+      "description": "Professional medical equipment from an official supplier",
+      "keywords": "buy medical equipment, price, specifications"
+    },
+    "Order": {
+      "title": "Order No. {id} | MedEquipment",
+      "description": "Your medical equipment order has been successfully received",
+      "og_title": "Medical Equipment Order",
+      "og_description": "Securely order professional medical devices"
+    }
+  },
   "header": {
     "address": "21 Yiu Wah street, Causeway Bay, Hong Kong",
     "nav": {
