@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --main-theme-color: #363378;
+  --main-theme-bg: #36337828;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-main-color: var(--main-theme-color);
+  --color-main-bg: var(--main-theme-bg);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* remove number input spinner */
+@layer utilities {
+  .no-spinner::-webkit-inner-spin-button,
+  .no-spinner::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .no-spinner {
+    -moz-appearance: textfield;
+  }
+}
+
+.container {
+  @apply mx-auto px-4 sm:px-8 lg:px-16 xl:px-20 2xl:px-24;
+}
+
+*::selection {
+  color: #fff;
+  background-color: #524da8;
+}
+
+/* slider css */
+.slider-container .slick-dots {
+  bottom: -40px !important;
+}
+.slider-container .slick-dots li {
+  margin: 0 2px !important;
+}
+.slider-container .slick-dots li button::before {
+  font-size: 10px !important;
+}
+.slider-container .slick-dots li.slick-active button::before {
+  color: var(--main-theme-color) !important;
+}
+
+/* custom scrollbar styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--main-theme-bg);
+  border-radius: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--main-theme-color);
+  border-radius: 6px;
+}

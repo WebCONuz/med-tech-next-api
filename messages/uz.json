@@ -1,0 +1,80 @@
+{
+  "header": {
+    "address": "15/A, Nest Tower, Nyu-York",
+    "nav": {
+      "item1": "Biz haqimizda",
+      "item2": "Barcha mahsulotlar",
+      "item3": "Aloqa"
+    },
+    "placeholder": "Qidirish..."
+  },
+  "HomePage": {
+    "title": "Biz haqimizda",
+    "description": "Dunyo standartidagi xizmat ko'rsatadigan farmatsevtika kompaniyasi.",
+    "about_title": "Kompaniya profili",
+    "about_1": "Biz mahsulot assortimentini muvaffaqiyatli kengaytirdik va dunyoning turli mamlakatlari bilan ishlaydigan ishonchli global sog'liqni saqlash yetkazib beruvchisiga aylandik. Yetkazib beradigan barcha mahsulotlarimiz arzon narxlarda eng yuqori sifatga egadir.",
+    "about_2": "Eng yuqori sifatni ta'minlash uchun barcha tibbiy asboblarimiz xom ashyodan yakuniy mahsulotgacha bo'lgan ishlab chiqarishning har bir bosqichida qatiiy sifat nazoratidan o'tadi. Barcha tibbiy uskunalarimiz xalqaro tan olingan standartlarga muvofiq sertifikatlangan.",
+    "about_3": "Biz mahsulotlarimizni mijozlarimizga eng tez vaqt ichida - dengiz, havo, temir yo'l va avtomobil transporti orqali etkazib beramiz. Bundan tashqari, biz individual yetkazib berish yechimlarini taklif qilamiz va mahsulotlarimizni bir necha kun ichida dunyoning istalgan nuqtasiga etkazib berishimiz mumkin.",
+    "featured_title": "Tavsiya etilgan mahsulotlar",
+    "btn_text": "Barcha mahsulotlarni ko'rsatish",
+    "sertification_title": "Sertifikatlar"
+  },
+  "ProductsPage": {
+    "title": "Barcha mahsulotlar",
+    "description": "Har xil turdagi tibbiy mahsulotlar",
+    "aside": {
+      "title1": "Mahsulot toifalari",
+      "title2": "Eng yaxshi baholangan mahsulotlar"
+    },
+    "allProducts": "Barchasi",
+    "info": "{start}–{end} ko'rsatilmoqda, jami {total} ta natija",
+    "placeholder": "Qidirish...",
+    "empty_title": "Bo'sh ma'lumot!!!",
+    "btn1": "Ko'rish",
+    "btn2": "Buyurtma"
+  },
+  "ContactPage": {
+    "title": "Biz bilan aloqa",
+    "description": "Savollaringiz yoki takliflaringiz uchun",
+    "sub_title": "Savollaringiz bormi?",
+    "info": "Agar sizda biron bir so'rov, taklif yoki savollar bo'lsa, biz bilan bog'laning.",
+    "name": "Ismingiz",
+    "email": "Elektron pochtangiz",
+    "msg": "Xabaringiz",
+    "btn": "Yuborish",
+    "iframe": "Interaktiv xarita",
+    "address": "211 Lehner Valleys, kv. 287, Xarrisstad"
+  },
+  "SingleProduct": {
+    "review": "{count} ta sharh",
+    "category": "Kategoriya:",
+    "share": "Ulashish:",
+    "order": "Buyurtma berish",
+    "top": "O'xshash maxsulotlar"
+  },
+  "SingleOrder": {
+    "title": "Mahsulot buyurtmasi",
+    "customer": "Hurmatli mijoz:",
+    "msg": "Agar siz mahsulotlarimiz va xizmatlarimiz haqida bilmoqchi bo'lsangiz, quyidagi shaklni to'ldiring va bizga yuboring, bizning javobimizni eng qisqa vaqt ichida olishingiz mumkin.",
+    "product_name": "Mahsulot nomi:",
+    "company": "Kompaniya:",
+    "name": "Ism:",
+    "phone": "Telefon:",
+    "email": "Elektron pochta:",
+    "type": {
+      "title": "Turi:",
+      "opt1": "Xabar",
+      "opt2": "Shikoyat",
+      "opt3": "So'rov",
+      "opt4": "Sotishdan keyingi xizmat"
+    },
+    "msg_title": "Sarlavha:",
+    "content": "Mazmuni:",
+    "code": {
+      "title": "Kod:",
+      "placeholder": "kod",
+      "text": "Ko'ryapsizmi? Almashtirish"
+    },
+    "btn": "Yuborish"
+  }
+}

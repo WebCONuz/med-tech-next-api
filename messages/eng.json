@@ -1,0 +1,80 @@
+{
+  "header": {
+    "address": "21 Yiu Wah street, Causeway Bay, Hong Kong",
+    "nav": {
+      "item1": "About us",
+      "item2": "All products",
+      "item3": "Contact us"
+    },
+    "placeholder": "Search..."
+  },
+  "HomePage": {
+    "title": "About us",
+    "description": "A pharmacy with world-class service.",
+    "about_title": "Company Profile",
+    "about_1": "We have successfully expanded our product range, becoming a reliable global healthcare supplier working with various countries worldwide. Everything we supply is based on the best quality at affordable prices.",
+    "about_2": "To ensure the highest quality, all our medical devices undergo the strictest quality control at every stage of production, from raw materials to the final verified product. All our medical devices are certified according to internationally recognized standards.",
+    "about_3": "We deliver our products as quickly as possible to where our customers need them - by sea, air, rail, and road transport. Additionally, we offer customized delivery solutions and can deliver our goods within a few days to all destinations worldwide.",
+    "featured_title": "Featured Products",
+    "btn_text": "Show all products",
+    "sertification_title": "Certifications"
+  },
+  "ProductsPage": {
+    "title": "All Products",
+    "description": "All types of medical products",
+    "aside": {
+      "title1": "Product Categories",
+      "title2": "Top Rated Product"
+    },
+    "allProducts": "All products",
+    "info": "Showing {start}–{end} of {total} results",
+    "placeholder": "Search...",
+    "empty_title": "Empty Data!!!",
+    "btn1": "Show product",
+    "btn2": "Order"
+  },
+  "ContactPage": {
+    "title": "Contact us",
+    "description": "For your questions or offers",
+    "sub_title": "Have any Questions?",
+    "info": "If you have any kind of requests, suggestions or questions, you can contact us.",
+    "name": "Your name",
+    "email": "Your email",
+    "msg": "Your message",
+    "btn": "Submit",
+    "iframe": "Interactive map iframe",
+    "address": "211 Lehner Valleys Apt. 287 Harrisstad"
+  },
+  "SingleProduct": {
+    "review": "{count} Reviews",
+    "category": "Category:",
+    "share": "Share:",
+    "order": "Order",
+    "top": "Similar products"
+  },
+  "SingleOrder": {
+    "title": "Product Order",
+    "customer": "Dear Customer:",
+    "msg": "If you need to know about our products and our services, please fill out the following form and send it to us, you can get our answer in the shortest possible time.",
+    "product_name": "Product Name:",
+    "company": "Company:",
+    "name": "Name:",
+    "phone": "Phone:",
+    "email": "E-mail:",
+    "type": {
+      "title": "Type:",
+      "opt1": "Message",
+      "opt2": "Complaints",
+      "opt3": "Ask",
+      "opt4": "Aftermarket"
+    },
+    "msg_title": "Title:",
+    "content": "Content:",
+    "code": {
+      "title": "Code:",
+      "placeholder": "code",
+      "text": "See? Replacing a"
+    },
+    "btn": "Submit"
+  }
+}
