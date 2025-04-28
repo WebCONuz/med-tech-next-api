@@ -24,10 +24,23 @@
 }
 
 /* Arab tili uchun */
-html[dir="rtl"] {
+html[dir="rtl"] .client-side {
   direction: rtl;
   text-align: right;
   font-family: "Amiri", serif; /* arabcha shriftlar uchun */
+}
+html[dir="rtl"] .admin-side {
+  direction: ltr;
+  text-align: left;
+}
+html[dir="rtl"] .client-main {
+  padding-left: 0;
+  padding-right: 24px;
+}
+@media screen and (max-width: 1024px) {
+  html[dir="rtl"] .client-main {
+    padding-right: 0;
+  }
 }
 
 body {

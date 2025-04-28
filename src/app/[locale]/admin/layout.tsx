@@ -17,5 +17,5 @@ export default function RootLayout({
     }
   }, [pathname, router]);
 
-  return <>{children}</>;
+  return <div className="admin-side">{children}</div>;
 }

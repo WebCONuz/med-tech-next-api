@@ -17,13 +17,13 @@ const TopProductCard = ({ data }: { data: ProductItem }) => {
         />
       </Link>
       <div className="w-3/4">
-        <div className="flex gap-x-[2px] mb-2">
+        {/* <div className="flex gap-x-[2px] mb-2">
           <FaStar className="text-sm text-yellow-500" />
           <FaStar className="text-sm text-yellow-500" />
           <FaStar className="text-sm text-yellow-500" />
           <FaStar className="text-sm text-yellow-500" />
           <FaStar className="text-sm text-yellow-500" />
-        </div>
+        </div> */}
         <Link
           href="#"
           className="block text-gray-600 duration-200 hover:text-main-color"

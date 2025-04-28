@@ -19,6 +19,11 @@ import { LuChartColumnIncreasing } from "react-icons/lu";
 import { FaSliders } from "react-icons/fa6";
 import { MdClose } from "react-icons/md";
 import { FiSearch } from "react-icons/fi";
+import { BiSolidCategoryAlt } from "react-icons/bi";
+
+interface ICategory extends ILang {
+  logo: string;
+}
 
 const ProductsGrid = ({ locale }: { locale: string }) => {
   const [isGrid, setIsGrid] = useState(true);
@@ -29,7 +34,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
   const [products, setProducts] = useState<ProductItem[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const [category, setCategory] = useState<ILang[]>([]);
+  const [category, setCategory] = useState<ICategory[]>([]);
   const [activeCategoryId, setActiveCategoryId] = useState<number | null>(null);
   const [catLoading, setCatLoading] = useState(false);
 
@@ -63,9 +68,13 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
       "https://api.berlinmed-export.com/api/category"
     );
     const categories: categoryType[] = res.data.data;
-    const filterCategory: ILang[] = categories?.map((item) => {
+    const filterCategory: ICategory[] = categories?.map((item) => {
       let translation = item.translations.find((c) => c.languageId === langId);
-      return { id: item.id, name: translation?.name || "" };
+      return {
+        id: item.id,
+        name: translation?.name || "",
+        logo: "https://api.berlinmed-export.com/" + item.logo,
+      };
     });
     setCategory(filterCategory);
     setCatLoading(false);
@@ -235,7 +244,11 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
                       : "hover:bg-main-bg"
                   }`}
                 >
-                  <span>{t("allProducts")}</span>
+                  <div className="flex gap-x-2 items-center">
+                    <BiSolidCategoryAlt className="text-main-color text-xl sm:text-3xl" />
+                    <span>{t("allProducts")}</span>
+                  </div>
+                  <FaLongArrowAltRight className="text-main-color text-lg" />
                 </li>
                 {category.map((item) => (
                   <li
@@ -252,7 +265,14 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
                         : "hover:bg-main-bg"
                     }`}
                   >
-                    <span>{item.name}</span>
+                    <div className="flex gap-x-2 items-center">
+                      <img
+                        src={item.logo}
+                        alt="category-item-img"
+                        className="w-6 sm:w-8"
+                      />
+                      <span>{item.name}</span>
+                    </div>
                     <FaLongArrowAltRight className="text-main-color text-lg" />
                   </li>
                 ))}
@@ -273,9 +293,11 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
               <h5 className="font-semibold">{t("aside.title2")}</h5>
             </div>
             <div className="flex flex-col gap-y-3">
-              {products.map((item) => (
-                <TopProductCard key={item.id} data={item} />
-              ))}
+              {products.map((item, index) => {
+                if (index < 6)
+                  return <TopProductCard key={item.id} data={item} />;
+                else return <></>;
+              })}
             </div>
           </div>
 
@@ -286,7 +308,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
           />
         </div>
       </aside>
-      <main className="w-full lg:w-2/3 xl:w-3/4 min-h-[calc(100vh-118px-88px)] lg:pl-6">
+      <main className="client-main w-full lg:w-2/3 xl:w-3/4 min-h-[calc(100vh-118px-88px)] lg:pl-6">
         <nav className=" py-2 mb-8 xl:mb-10">
           <div className="flex items-center justify-between">
             <div className="flex gap-x-2">

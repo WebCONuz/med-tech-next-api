@@ -3,11 +3,11 @@ import Link from "next/link";
 import TopProductCard from "@/app/[locale]/components/ui/top-product-card";
 
 import { LuChartColumnIncreasing } from "react-icons/lu";
-import { FaStar } from "react-icons/fa";
-import { BsStarHalf } from "react-icons/bs";
-import { FaFacebook } from "react-icons/fa6";
-import { FaTelegram } from "react-icons/fa";
-import { FiInstagram } from "react-icons/fi";
+// import { FaStar } from "react-icons/fa";
+// import { BsStarHalf } from "react-icons/bs";
+// import { FaFacebook } from "react-icons/fa6";
+// import { FaTelegram } from "react-icons/fa";
+// import { FiInstagram } from "react-icons/fi";
 import { getTranslations } from "next-intl/server";
 import { ILang } from "@/types/lang.types";
 import { ProductItem } from "@/types/product.types";
@@ -80,7 +80,7 @@ export default async function ProductDetails({ params }: Props) {
   const relationData: ProductItem[] = relatedProducts.data;
 
   return (
-    <main>
+    <main className="min-h-[calc(100vh-116px-88px)]">
       <div className="container pb-8 pt-10 sm:py-12 md:py-15 flex flex-col lg:flex-row gap-x-4 xl:gap-x-10">
         <div className="w-full lg:w-[70%] xl:w-3/4 flex flex-col md:flex-row mb-8 lg:mb-0">
           <div className="w-full md:w-2/5 mb-5 sm:mb-6 md:mb-0 bg-main-bg rounded-md py-5 flex items-center justify-center">
@@ -92,7 +92,7 @@ export default async function ProductDetails({ params }: Props) {
           </div>
           <div className="w-full md:w-3/5 md:pl-4 xl:pl-10">
             <div className="flex flex-col h-full justify-center">
-              <div className="flex gap-x-1 mt-4 mb-2 sm:mb-3">
+              {/* <div className="flex gap-x-1 mt-4 mb-2 sm:mb-3">
                 <FaStar className="text-lg text-yellow-500" />
                 <FaStar className="text-lg text-yellow-500" />
                 <FaStar className="text-lg text-yellow-500" />
@@ -101,7 +101,7 @@ export default async function ProductDetails({ params }: Props) {
                 <span className="ml-2 text-sm text-yellow-500">
                   ( {t("review", { count: 7 })} )
                 </span>
-              </div>
+              </div> */}
               <h1 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
                 {product.data?.name}
               </h1>
@@ -115,7 +115,7 @@ export default async function ProductDetails({ params }: Props) {
                   </p>
                 </div>
               </div>
-              <div className="flex items-center gap-x-4 mb-4 sm:mb-8">
+              {/* <div className="flex items-center gap-x-4 mb-4 sm:mb-8">
                 <span>{t("share")}</span>
                 <Link
                   href="#"
@@ -135,7 +135,7 @@ export default async function ProductDetails({ params }: Props) {
                 >
                   <FiInstagram />
                 </Link>
-              </div>
+              </div> */}
               <p className="text-gray-500 leading-7 mb-3 sm:mb-5">
                 {product.data?.description}
               </p>
@@ -155,9 +155,11 @@ export default async function ProductDetails({ params }: Props) {
               <h5 className="font-semibold">{t("top")}</h5>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex flex-col gap-y-3">
-              {relationData?.map((item) => (
-                <TopProductCard key={item?.id} data={item} />
-              ))}
+              {relationData?.map((item, index) => {
+                if (index < 6)
+                  return <TopProductCard key={item?.id} data={item} />;
+                else return <></>;
+              })}
             </div>
           </div>
         </div>

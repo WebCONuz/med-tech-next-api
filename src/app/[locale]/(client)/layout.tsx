@@ -17,7 +17,7 @@ export default async function RootLayout({
   const { locale } = await params;
 
   return (
-    <div>
+    <div className="client-side">
       <Header locale={locale} />
       {children}
       <Footer />
