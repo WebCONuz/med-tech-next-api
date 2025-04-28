@@ -30,7 +30,7 @@
     }
   },
   "header": {
-    "address": "15/A, Nest Tower, Nyu-York",
+    "address": "21 Yiu Wah street, Causeway Bay, Hong Kong",
     "nav": {
       "item1": "Biz haqimizda",
       "item2": "Barcha mahsulotlar",
@@ -73,7 +73,7 @@
     "msg": "Xabaringiz",
     "btn": "Yuborish",
     "iframe": "Interaktiv xarita",
-    "address": "211 Lehner Valleys, kv. 287, Xarrisstad"
+    "address": "21 Yiu Wah street, Causeway Bay, Hong Kong"
   },
   "SingleProduct": {
     "review": "{count} ta sharh",

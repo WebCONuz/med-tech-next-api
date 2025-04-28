@@ -6,8 +6,8 @@ import React, { useState } from "react";
 
 const AuthForm = () => {
   const router = useRouter();
-  const [email, setEmail] = useState("mainadmin@gmail.com");
-  const [password, setPassword] = useState("admin1234");
+  const [email, setEmail] = useState(""); // mainadmin@gmail.com
+  const [password, setPassword] = useState(""); // admin1234
   const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
