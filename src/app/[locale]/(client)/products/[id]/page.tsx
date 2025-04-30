@@ -90,7 +90,7 @@ export default async function ProductDetails({ params }: Props) {
               className="w-4/5 sm:w-1/2 md:w-[90%] xl:w-3/4"
             />
           </div>
-          <div className="w-full md:w-3/5 md:pl-4 xl:pl-10">
+          <div className="product-info w-full md:w-3/5 md:pl-4 xl:pl-10">
             <div className="flex flex-col h-full justify-center">
               {/* <div className="flex gap-x-1 mt-4 mb-2 sm:mb-3">
                 <FaStar className="text-lg text-yellow-500" />

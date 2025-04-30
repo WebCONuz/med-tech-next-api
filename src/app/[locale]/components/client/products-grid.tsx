@@ -210,7 +210,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
     <div className="container flex pt-10 pb-20">
       <aside
         onClick={closeResponsiveModal}
-        className={`fixed lg:sticky left-0 lg:left-auto top-0 lg:top-1 z-50 lg:z-10 w-full lg:w-1/3 xl:w-1/4 h-screen bg-[#000000b6] lg:bg-transparent px-2 sm:px-4 lg:px-0 lg:pr-2 overflow-y-auto custom-scrollbar max-lg:flex max-lg:items-center max-lg:justify-center duration-200 ${
+        className={`client-sidebar fixed lg:sticky left-0 lg:left-auto top-0 lg:top-1 z-50 lg:z-10 w-full lg:w-1/3 xl:w-1/4 h-screen bg-[#000000b6] lg:bg-transparent px-2 sm:px-4 lg:px-0 lg:pr-2 overflow-y-auto custom-scrollbar max-lg:flex max-lg:items-center max-lg:justify-center duration-200 ${
           openFilter
             ? "max-lg:opacity-100 max-lg:visible"
             : "max-lg:opacity-0 max-lg:invisible"
@@ -223,7 +223,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
               <h5 className="font-semibold">{t("aside.title1")}</h5>
               <MdClose
                 onClick={() => setOpenFilter(false)}
-                className="text-2xl absolute top-1/2 -translate-1/2 right-0 lg:hidden"
+                className="close-btn text-2xl absolute top-1/2 -translate-1/2 right-0 lg:hidden"
               />
             </div>
             {catLoading ? (

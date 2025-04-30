@@ -23,26 +23,6 @@
   }
 }
 
-/* Arab tili uchun */
-html[dir="rtl"] .client-side {
-  direction: rtl;
-  text-align: right;
-  font-family: "Amiri", serif; /* arabcha shriftlar uchun */
-}
-html[dir="rtl"] .admin-side {
-  direction: ltr;
-  text-align: left;
-}
-html[dir="rtl"] .client-main {
-  padding-left: 0;
-  padding-right: 24px;
-}
-@media screen and (max-width: 1024px) {
-  html[dir="rtl"] .client-main {
-    padding-right: 0;
-  }
-}
-
 body {
   background: var(--background);
   color: var(--foreground);
@@ -99,4 +79,47 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: var(--main-theme-color);
   border-radius: 6px;
+}
+
+/* Arab tili uchun */
+html[dir="rtl"] .client-side {
+  direction: rtl;
+  text-align: right;
+  font-family: "Amiri", serif; /* arabcha shriftlar uchun */
+}
+html[dir="rtl"] .admin-side {
+  direction: ltr;
+  text-align: left;
+}
+html[dir="rtl"] .client-sidebar {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+html[dir="rtl"] .close-btn {
+  left: 8px;
+  right: auto;
+}
+html[dir="rtl"] .client-main {
+  padding-left: 0;
+  padding-right: 24px;
+}
+@media screen and (max-width: 1024px) {
+  html[dir="rtl"] .client-main {
+    padding-right: 0;
+  }
+}
+
+html[dir="rtl"] .product-info {
+  padding-left: 0;
+  padding-right: 40px;
+}
+@media screen and (max-width: 1280px) {
+  html[dir="rtl"] .product-info {
+    padding-right: 16px;
+  }
+}
+@media screen and (max-width: 768px) {
+  html[dir="rtl"] .product-info {
+    padding-right: 0;
+  }
 }

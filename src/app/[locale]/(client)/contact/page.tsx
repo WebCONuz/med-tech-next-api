@@ -40,7 +40,7 @@ export default async function Products() {
           </div>
           <div className="w-full md:w-1/2">
             <Iframe
-              url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.3119420044563!2d69.28202807557582!3d41.345572998588544!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b5577d651f7%3A0x53e8424358347ba7!2sToshkent%20teleminorasi%2C%20%D0%A2%D0%BEshkent%2C%20Toshkent%2C%20O%CA%BBzbekiston!5e0!3m2!1suz!2s!4v1743693336894!5m2!1suz!2s"
+              url="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3692.0093265434666!2d114.17937617480312!3d22.277636543717584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34040050e7b8e333%3A0x981bcfb41f4d47f6!2sWorkingview%20Commercial%20Building%2C%2021%20Yiu%20Wa%20St%2C%20Bowrington%2C%20Gonkong%20(Xitoy%20MMH)!5e0!3m2!1suz!2s!4v1746004070294!5m2!1suz!2s"
               title={t("iframe")}
             />
             <div className="flex items-center gap-x-4 mt-6 sm:mt-8">
@@ -56,9 +56,9 @@ export default async function Products() {
                 <LiaPhoneVolumeSolid className="text-xl" />
               </div>
               <p className="max-w-[200px] text-gray-600 leading-6">
-                +998(90) 100-10-10
-                <br />
-                +998(90) 100-10-11
+                +86 152 1665-77-31
+                {/* <br />
+                +998(90) 100-10-11 */}
               </p>
             </div>
             <div className="flex items-center gap-x-4 mt-3 sm:mt-4">
@@ -66,9 +66,9 @@ export default async function Products() {
                 <BsEnvelope className="text-xl" />
               </div>
               <p className="max-w-[300px] text-gray-600 leading-6">
-                med-exapmle-1@gmail.com
-                <br />
-                med-exapmle-2@gmail.com
+                berlinmed-export@gmail.com
+                {/* <br />
+                med-exapmle-2@gmail.com */}
               </p>
             </div>
           </div>

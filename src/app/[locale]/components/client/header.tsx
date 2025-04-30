@@ -67,13 +67,13 @@ const Header = ({ locale }: { locale: string }) => {
             <Link href="#" className="flex items-center text-white">
               <BsEnvelope className="sm:text-lg lg:mr-2" />
               <span className="text-sm hidden lg:block">
-                med-exapmle@gmail.com
+                berlinmed-export@gmail.com
               </span>
             </Link>
             <Link href="#" className="flex items-center text-white">
               <LiaPhoneVolumeSolid className="sm:text-lg lg:mr-2" />
               <span className="text-sm hidden lg:block">
-                +998(90) 100-10-10
+                +86 152 1665-77-31
               </span>
             </Link>
             <Link href="#" className="flex items-center text-white">
