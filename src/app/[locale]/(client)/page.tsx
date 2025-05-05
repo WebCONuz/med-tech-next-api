@@ -63,23 +63,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 const getProducts = async (locale: string) => {
-  const res1 = await fetch(`https://api.berlinmed-export.com/api/language`);
-  const lang = await res1.json();
-  const langObj = lang.data.find((item: ILang) => item.name === locale);
+  try {
+    const res1 = await fetch(`https://api.berlinmed-export.com/api/language`);
+    const lang = await res1.json();
+    const langObj = lang.data.find((item: ILang) => item.name === locale);
 
-  const res = await fetch(`https://api.berlinmed-export.com/api/product`, {
-    cache: "no-store",
-    headers: {
-      lang: String(langObj?.id || 1),
-    },
-  });
-  if (!res.ok) {
-    console.log(res);
-
-    throw new Error("Some error");
+    const res = await fetch(`https://api.berlinmed-export.com/api/product`, {
+      cache: "no-store",
+      headers: {
+        lang: String(langObj?.id || 1),
+      },
+    });
+    if (!res.ok) {
+      throw new Error("Some error");
+    }
+    const fullData = await res.json();
+    return fullData.data;
+  } catch (error) {
+    console.log(error);
   }
-  const fullData = await res.json();
-  return fullData.data;
 };
 
 export default async function About({ params }: Props) {
@@ -87,7 +89,7 @@ export default async function About({ params }: Props) {
   const { locale } = await params;
   let loading = true;
   const skeleton: number[] = [1, 2, 3, 4, 5];
-  const products: ProductItem[] = await getProducts(locale);
+  const products: ProductItem[] = (await getProducts(locale)) || [];
   loading = false;
 
   return (

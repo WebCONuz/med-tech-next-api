@@ -35,10 +35,14 @@ const Header = ({ locale }: { locale: string }) => {
   ];
 
   const getLanguages = async () => {
-    const res = await axios.get(
-      "https://api.berlinmed-export.com/api/language"
-    );
-    if (res.status === 200) setLangs(res.data.data);
+    try {
+      const res = await axios.get(
+        "https://api.berlinmed-export.com/api/language"
+      );
+      if (res.status === 200) setLangs(res.data.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const activeLink = (pageHref: string): boolean => {
@@ -67,7 +71,7 @@ const Header = ({ locale }: { locale: string }) => {
             <Link href="#" className="flex items-center text-white">
               <BsEnvelope className="sm:text-lg lg:mr-2" />
               <span className="text-sm hidden lg:block">
-                berlinmed-export@gmail.com
+                admin@berlinmed-export.com
               </span>
             </Link>
             <Link href="#" className="flex items-center text-white">
@@ -121,7 +125,7 @@ const Header = ({ locale }: { locale: string }) => {
             alt="Logo"
             width={56}
             height={56}
-            className="w-12 lg:w-14 shadow-md rounded-full bg-main-bg"
+            className="w-12 lg:w-14 h-12 lg:h-14 shadow-md rounded-full bg-main-bg"
           />
         </Link>
         <nav className="hidden sm:flex gap-x-6 lg:gap-x-8">

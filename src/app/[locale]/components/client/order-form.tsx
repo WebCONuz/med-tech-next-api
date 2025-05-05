@@ -1,5 +1,5 @@
 "use client";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -34,13 +34,13 @@ const OrderForm = ({
   const [formData, setFormData] = useState<OrderFormData>({
     productId: productId,
     company: "",
-    name: productName,
-    phone: "",
+    name: "",
+    phone: "+1-202-555-0143",
     email: "",
-    type: "message",
+    type: "",
     title: "",
     content: "",
-    code: "",
+    code: "1234",
     status: "START",
   });
   const t = useTranslations("SingleOrder");
@@ -81,13 +81,18 @@ const OrderForm = ({
           type: "",
           title: "",
           content: "",
-          code: "",
+          code: "1234",
           status: "START",
         });
-        console.log(res);
+        alert(t("alert"));
       }
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        console.log(error.response?.data?.message?.[0]);
+        alert(error.response?.data?.message?.[0]);
+      } else {
+        console.log(error);
+      }
     } finally {
       setLoading(false);
     }
@@ -102,7 +107,7 @@ const OrderForm = ({
         <p className="w-[120px] font-bold sm:font-normal">
           {t("product_name")}
         </p>
-        <h3 className="w-[calc(100%-120px)] text-lg text-main-color font-bold">
+        <h3 className="w-[calc(100%-120px)] text-main-color font-bold uppercase">
           {productName}
         </h3>
       </div>
@@ -121,10 +126,11 @@ const OrderForm = ({
             setFormData({ ...formData, company: e.target.value })
           }
           required
+          placeholder={t("placeholder.company")}
           className="block w-full sm:w-[calc(100%-120px)] outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         />
       </div>
-      <div className="flex flex-col sm:flex-row sm:items-center sm:gap-x-4">
+      {/* <div className="flex flex-col sm:flex-row sm:items-center sm:gap-x-4">
         <label
           htmlFor="user-name"
           className="font-bold sm:font-normal sm:w-[120px] block mb-1 sm:mb-0"
@@ -137,9 +143,10 @@ const OrderForm = ({
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           required
+          placeholder={t("placeholder.name")}
           className="block w-full sm:w-[calc(100%-120px)] outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         />
-      </div>
+      </div> */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:gap-x-4">
         <label
           htmlFor="user-phone"
@@ -153,6 +160,7 @@ const OrderForm = ({
           value={formData.phone}
           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
           required
+          placeholder={t("placeholder.phone")}
           className="block w-full sm:w-[calc(100%-120px)] outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         />
       </div>
@@ -169,6 +177,7 @@ const OrderForm = ({
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           required
+          placeholder={t("placeholder.email")}
           className="block w-full sm:w-[calc(100%-120px)] outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         />
       </div>
@@ -176,9 +185,9 @@ const OrderForm = ({
         <span className="font-bold sm:font-normal sm:w-[120px] block mb-1 sm:mb-0">
           {t("type.title")}
         </span>
-        <div className="flex flex-col sm:flex-row gap-y-1 sm:gap-y-0 sm:grid sm:grid-cols-2 sm:gap-x-2 md:flex md:gap-x-4">
+        <div className="flex flex-col sm:flex-row gap-y-1 sm:gap-y-0 sm:grid sm:grid-cols-2 sm:gap-x-2 md:flex md:gap-x-3">
           {typeCheckbox.map((item, index) => (
-            <div key={item.label} className="flex items-center gap-x-2">
+            <div key={item.label} className="flex items-center gap-x-1">
               <input
                 type="radio"
                 id={item.label}
@@ -188,7 +197,9 @@ const OrderForm = ({
                 className="form-radio h-4 w-4"
                 required
               />
-              <label htmlFor={item.label}>{t("type.opt" + (index + 1))}</label>
+              <label htmlFor={item.label} className="text-sm mt-[2px]">
+                {t("type.opt" + (index + 1))}
+              </label>
             </div>
           ))}
         </div>
@@ -206,6 +217,7 @@ const OrderForm = ({
           value={formData.title}
           onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           required
+          placeholder={t("placeholder.title")}
           className="block w-full sm:w-[calc(100%-120px)] outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         />
       </div>
@@ -223,10 +235,11 @@ const OrderForm = ({
             setFormData({ ...formData, content: e.target.value })
           }
           required
+          placeholder={t("placeholder.content")}
           className="block w-full sm:w-[calc(100%-120px)] h-[150px] sm:h-[100px] resize-none outline-none border border-gray-400 duration-200 hover:border-main-color focus:border-main-color py-[6px] sm:py-2 px-3 sm:px-4 rounded-md"
         ></textarea>
       </div>
-      <div className="flex flex-col sm:flex-row sm:items-center sm:gap-x-4">
+      {/* <div className="flex flex-col sm:flex-row sm:items-center sm:gap-x-4">
         <label
           htmlFor="user-code"
           className="font-bold sm:font-normal sm:w-[120px] block mb-1 sm:mb-0"
@@ -250,7 +263,7 @@ const OrderForm = ({
           />
           <p className="hidden sm:block">{t("code.text")}</p>
         </div>
-      </div>
+      </div> */}
       <div className="flex items-center gap-x-2 sm:gap-x-4 mt-2 sm:mt-0">
         <div className="w-[120px] hidden sm:block"></div>
         <div className="w-full sm:w-[calc(100%-120px)] flex flex-col">

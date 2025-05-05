@@ -105,6 +105,15 @@
       "placeholder": "kod",
       "text": "Ko'ryapsizmi? Almashtirish"
     },
-    "btn": "Yuborish"
+    "btn": "Yuborish",
+    "placeholder": {
+      "company": "Kompaniyangiz nomi",
+      "name": "Ismingiz",
+      "phone": "Telefon raqamingiz",
+      "email": "Elektron pochtangiz",
+      "title": "Xabaringiz sarlavhasi",
+      "content": "Xabaringiz mazmuni"
+    },
+    "alert": "Buyurtmangiz muvaffaqqiyatli yuborildi"
   }
 }

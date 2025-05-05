@@ -105,6 +105,15 @@
       "placeholder": "code",
       "text": "See? Replacing a"
     },
-    "btn": "Submit"
+    "btn": "Submit",
+    "placeholder": {
+      "company": "Your company name",
+      "name": "Your name",
+      "phone": "Your phone number",
+      "email": "Your email: user@example.com",
+      "title": "Title of your message",
+      "content": "content of your message"
+    },
+    "alert": "Your order has been successfully sent."
   }
 }
