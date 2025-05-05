@@ -57,6 +57,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id, locale } = await params;
   const t = await getTranslations({ locale, namespace: "Seo.Product" });
   const { product } = await fetchProducts(+id, locale);
+
   return {
     title: `${product?.data?.name} | ${t("title")}`,
     description: product?.data?.description || t("description"),
@@ -64,7 +65,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       "keywords"
     )}`,
     openGraph: {
-      images: [product?.data?.images],
+      images: [`https://api.berlinmed-export.com/${product?.data?.images}`],
     },
   };
 }

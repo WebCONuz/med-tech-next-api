@@ -22,6 +22,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico", // bu public ichidagi yo‘lga to‘g‘ri keladi
   },
+  metadataBase: new URL("https://api.berlinmed-export.com"),
 };
 
 export default async function RootLayout({

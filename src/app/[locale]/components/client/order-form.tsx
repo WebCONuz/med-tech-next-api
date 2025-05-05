@@ -35,7 +35,7 @@ const OrderForm = ({
     productId: productId,
     company: "",
     name: "",
-    phone: "+1-202-555-0143",
+    phone: "",
     email: "",
     type: "",
     title: "",
