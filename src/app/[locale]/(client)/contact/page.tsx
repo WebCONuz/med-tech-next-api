@@ -66,7 +66,7 @@ export default async function Products() {
                 <BsEnvelope className="text-xl" />
               </div>
               <p className="max-w-[300px] text-gray-600 leading-6">
-                admin@berlinmed-export.com
+                sales@berlinmed-export.com
                 {/* <br />
                 med-exapmle-2@gmail.com */}
               </p>

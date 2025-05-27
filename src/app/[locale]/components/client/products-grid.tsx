@@ -40,7 +40,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1); // backend total count asosida hisoblanadi
-  const limit = 3;
+  const limit = 12;
 
   const t = useTranslations("ProductsPage");
   const skeleton = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -252,7 +252,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
                 </li>
                 {category.map((item) => (
                   <li
-                    key={item.id}
+                    key={item?.id}
                     onClick={() => {
                       setOpenFilter(false);
                       setActiveCategoryId(item.id);
@@ -295,8 +295,8 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
             <div className="flex flex-col gap-y-3">
               {products.map((item, index) => {
                 if (index < 6)
-                  return <TopProductCard key={item.id} data={item} />;
-                else return <></>;
+                  return <TopProductCard key={item?.id} data={item} />;
+                else return <div key={index + 78}></div>;
               })}
             </div>
           </div>
@@ -414,17 +414,21 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
           <div className="grid grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-5 md:gap-6 lg:gap-7 xl:gap-8">
             {!loading
               ? products?.map((item) => (
-                  <ProductCard key={item.id + 2} data={item} />
+                  <ProductCard key={item?.id + 2} data={item} />
                 ))
-              : skeleton?.map((item) => <Skeleton height="300px" key={item} />)}
+              : skeleton?.map((item) => (
+                  <Skeleton key={item + 15} height="300px" />
+                ))}
           </div>
         ) : (
           <div className="flex flex-col gap-y-4 sm:gap-y-6 xl:gap-y-8">
             {!loading
               ? products?.map((item) => (
-                  <RowProductCard key={item.id + 2} data={item} />
+                  <RowProductCard key={item?.id + 100} data={item} />
                 ))
-              : skeleton?.map((item) => <Skeleton height="200px" key={item} />)}
+              : skeleton?.map((item) => (
+                  <Skeleton height="200px" key={item + 41} />
+                ))}
           </div>
         )}
 

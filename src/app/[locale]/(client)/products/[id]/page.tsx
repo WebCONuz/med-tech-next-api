@@ -158,8 +158,8 @@ export default async function ProductDetails({ params }: Props) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex flex-col gap-y-3">
               {relationData?.map((item, index) => {
                 if (index < 6)
-                  return <TopProductCard key={item?.id} data={item} />;
-                else return <></>;
+                  return <TopProductCard key={index + 102.1} data={item} />;
+                else return <div key={index + 103}></div>;
               })}
             </div>
           </div>

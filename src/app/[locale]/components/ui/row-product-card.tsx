@@ -35,7 +35,7 @@ const RowProductCard = ({ data }: { data: ProductItem }) => {
           </Link>
           <Link
             href={`/orders/${data.id}`}
-            className="rounded font-medium transition-colors text-sm sm:text-base py-[6px] sm:py-2 sm:px-4 text-center hover:bg-main-color bg-main-bg hover:text-white text-black"
+            className="rounded font-medium transition-colors text-sm sm:text-base py-[6px] sm:py-2 sm:px-4 text-center bg-main-color hover:bg-main-bg text-white hover:text-black"
           >
             {t("btn2")}
           </Link>

@@ -10,10 +10,10 @@ import { GrLocation } from "react-icons/gr";
 import { FaFacebook } from "react-icons/fa6";
 import { FaTelegram } from "react-icons/fa";
 import { FiInstagram } from "react-icons/fi";
-import { IoMdSunny } from "react-icons/io";
-import { IoMoon } from "react-icons/io5";
+// import { IoMdSunny } from "react-icons/io";
+// import { IoMoon } from "react-icons/io5";
 
-import { FiSearch } from "react-icons/fi";
+// import { FiSearch } from "react-icons/fi";
 import { LuMenu } from "react-icons/lu";
 import { MdClose } from "react-icons/md";
 import LangAccordion from "../ui/lang-accordion";
@@ -71,7 +71,7 @@ const Header = ({ locale }: { locale: string }) => {
             <Link href="#" className="flex items-center text-white">
               <BsEnvelope className="sm:text-lg lg:mr-2" />
               <span className="text-sm hidden lg:block">
-                admin@berlinmed-export.com
+                sales@berlinmed-export.com
               </span>
             </Link>
             <Link href="#" className="flex items-center text-white">
@@ -88,8 +88,8 @@ const Header = ({ locale }: { locale: string }) => {
           <div className="flex items-center gap-x-3 sm:gap-x-5">
             <div className="flex items-center gap-x-1 sm:gap-x-2">
               {/* darkmode btn */}
-              <button
-                className="cursor-pointer w-6 sm:w-7 h-6 sm:h-7 flex items-center justify-center outline-none border border-white dark:border-gray-600 rounded-md"
+              {/* <button
+                className="cursor-pointer w-6 sm:w-7 h-6 sm:h-7 flex items-center justify-center outline-none border border-white rounded-md"
                 onClick={darkMode}
               >
                 {isDark ? (
@@ -97,7 +97,7 @@ const Header = ({ locale }: { locale: string }) => {
                 ) : (
                   <IoMdSunny className="sm:text-lg text-white" />
                 )}
-              </button>
+              </button> */}
 
               {/* language */}
               <LangAccordion langs={langs} />
@@ -142,7 +142,7 @@ const Header = ({ locale }: { locale: string }) => {
           ))}
         </nav>
         <div className="relative hidden md:block">
-          <input
+          {/* <input
             id="search_input"
             disabled
             type="text"
@@ -154,7 +154,7 @@ const Header = ({ locale }: { locale: string }) => {
             className="absolute left-5 top-1/2 -translate-1/2 cursor-pointer"
           >
             <FiSearch className="text-xl text-gray-400" />
-          </label>
+          </label> */}
         </div>
         <div
           onClick={() => setOpenMenu(!openMenu)}
