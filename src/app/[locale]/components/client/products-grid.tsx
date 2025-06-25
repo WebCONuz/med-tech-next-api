@@ -265,7 +265,7 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
                         : "hover:bg-main-bg"
                     }`}
                   >
-                    <div className="flex gap-x-2 items-center">
+                    <div className="flex gap-x-2 items-center w-[90%] line-clamp-2">
                       <img
                         src={item.logo}
                         alt="category-item-img"
@@ -301,11 +301,11 @@ const ProductsGrid = ({ locale }: { locale: string }) => {
             </div>
           </div>
 
-          <img
+          {/* <img
             src="https://tunatheme.com/tf/html/vicodin-preview/vicodin/img/banner/2.jpg"
             alt="rec"
             className="w-full rounded-md hidden lg:block"
-          />
+          /> */}
         </div>
       </aside>
       <main className="client-main w-full lg:w-2/3 xl:w-3/4 min-h-[calc(100vh-118px-88px)] lg:pl-6">

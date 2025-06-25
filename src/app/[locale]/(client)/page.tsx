@@ -101,7 +101,7 @@ export default async function About({ params }: Props) {
           <div className="flex flex-wrap lg:flex-nowrap lg:gap-x-10 xl:gap-x-14">
             <div className="hidden sm:block group w-full lg:w-1/2 mb-8 lg:mb-0 relative rounded-xl overflow-hidden">
               <img
-                src="/about.webp"
+                src="/about.jpg"
                 alt="about-image"
                 className="w-full h-full object-cover"
               />
