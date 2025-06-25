@@ -8,7 +8,7 @@ const Hero = ({
   description: string;
 }) => {
   return (
-    <section className="bg-[url(/pharm_tool.jpg)] bg-cover bg-top bg-no-repeat">
+    <section className="bg-[url(/pharm_tool1.jpg)] bg-cover bg-top bg-no-repeat">
       <div className="bg-[#36337882]">
         <div className="container">
           <div className="py-32 text-center text-white max-w-[600px] mx-auto">
