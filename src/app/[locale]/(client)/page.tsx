@@ -153,12 +153,12 @@ export default async function About({ params }: Props) {
         </div>
       </section>
 
-      <section className="pb-20 xl:pb-24">
+      {/* <section className="pb-20 xl:pb-24">
         <div className="container overflow-hidden">
           <Title title={t("sertification_title")} />
           <MainSlider items={sertificateData} />
         </div>
-      </section>
+      </section> */}
     </main>
   );
 }

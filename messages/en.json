@@ -115,5 +115,6 @@
       "content": "content of your message"
     },
     "alert": "Your order has been successfully sent."
-  }
+  },
+  "footer": "Copyright"
 }

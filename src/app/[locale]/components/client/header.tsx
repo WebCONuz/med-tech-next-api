@@ -22,7 +22,7 @@ import axios from "axios";
 import { ILang } from "@/types/lang.types";
 
 const Header = ({ locale }: { locale: string }) => {
-  const [isDark, setIsDark] = useState(false);
+  // const [isDark, setIsDark] = useState(false);
   const [openMenu, setOpenMenu] = useState(false);
   const [langs, setLangs] = useState<ILang[]>([]);
   const pathname = usePathname();
@@ -55,9 +55,9 @@ const Header = ({ locale }: { locale: string }) => {
     return href === pathname;
   };
 
-  const darkMode = () => {
-    setIsDark(!isDark);
-  };
+  // const darkMode = () => {
+  //   setIsDark(!isDark);
+  // };
 
   useEffect(() => {
     getLanguages();
