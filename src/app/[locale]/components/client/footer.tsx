@@ -8,7 +8,7 @@ const Footer = () => {
     <footer className="bg-[#171B2A] py-6 sm:py-8">
       <div className="container flex justify-center">
         <p className="text-white text-sm sm:text-base">
-          &copy; {t("footer")} {new Date().getFullYear()}
+          &copy; {t("footer")} 2022
         </p>
       </div>
     </footer>

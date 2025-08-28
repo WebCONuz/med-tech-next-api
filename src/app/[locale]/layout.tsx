@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "Med Technique",
   description: "Root Layout",
   icons: {
-    icon: "/favicon.ico", // bu public ichidagi yo‘lga to‘g‘ri keladi
+    icon: "/logo.png", // bu public ichidagi yo‘lga to‘g‘ri keladi
   },
   metadataBase: new URL("https://api.berlinmed-export.com"),
 };

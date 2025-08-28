@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Hero from "@/app/[locale]/components/client/hero";
 import Title from "@/app/[locale]/components/ui/title";
-import MainSlider from "@/app/[locale]/components/client/main-slider";
+// import MainSlider from "@/app/[locale]/components/client/main-slider";
 import ProductCard from "@/app/[locale]/components/ui/product-card";
-import { sertificateData } from "@/types/static.data";
+// import { sertificateData } from "@/types/static.data";
 import { getTranslations } from "next-intl/server";
 import { ProductItem } from "@/types/product.types";
 import Skeleton from "../components/ui/skeleton";
@@ -94,7 +94,7 @@ export default async function About({ params }: Props) {
 
   return (
     <main>
-      <Hero title={t("title")} description={t("description")} />
+      <Hero title="" description="" />
 
       <section className="py-10 sm:py-12 lg:py-14 xl:py-16">
         <div className="container">
